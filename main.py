@@ -5,7 +5,7 @@ import sys
 
 def main(*args, **kwargs) -> None:
     """main function"""
-    app = QApplication(sys.argv)
+    app = QApplication(sys.argv)  # TODO: Покакать; by: gerod; date: 28.11.2024
 
     ex = UniversalHelper()
     ex.show()
