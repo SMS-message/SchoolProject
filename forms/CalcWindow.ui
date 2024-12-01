@@ -46,17 +46,15 @@ QPushButton {
 QPushButton:hover {
 	border-color: rgb(170, 170, 170);
 	border-width: 2px;
-
-	width: 300px;
-	height: 30px;
 }
 
 QPushButton:pressed {
 	border-color: white;
 	border-width: 2px;
-	
-	width: 300px;
-	height: 30px;
+}
+
+QPushButton:disabled {
+	color: #353535;
 }
 </string>
   </property>
@@ -640,7 +638,7 @@ QPushButton:pressed {
          <item row="5" column="3">
           <widget class="QPushButton" name="progComBtn">
            <property name="text">
-            <string>,</string>
+            <string/>
            </property>
            <attribute name="buttonGroup">
             <string notr="true">progButtonGroup</string>

@@ -40,17 +40,15 @@ class Ui_CalcWidget(object):
 "QPushButton:hover {\n"
 "    border-color: rgb(170, 170, 170);\n"
 "    border-width: 2px;\n"
-"\n"
-"    width: 300px;\n"
-"    height: 30px;\n"
 "}\n"
 "\n"
 "QPushButton:pressed {\n"
 "    border-color: white;\n"
 "    border-width: 2px;\n"
-"    \n"
-"    width: 300px;\n"
-"    height: 30px;\n"
+"}\n"
+"\n"
+"QPushButton:disabled {\n"
+"    color: #353535;\n"
 "}\n"
 "")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(CalcWidget)
@@ -347,6 +345,7 @@ class Ui_CalcWidget(object):
         self.progButtonGroup.addButton(self.progFourBtn)
         self.progCalcLayout.addWidget(self.progFourBtn, 3, 1, 1, 1)
         self.progComBtn = QtWidgets.QPushButton(parent=self.ProgCalc)
+        self.progComBtn.setText("")
         self.progComBtn.setObjectName("progComBtn")
         self.progButtonGroup.addButton(self.progComBtn)
         self.progCalcLayout.addWidget(self.progComBtn, 5, 3, 1, 1)
@@ -543,7 +542,6 @@ class Ui_CalcWidget(object):
         self.openBracketBtn_5.setText(_translate("CalcWidget", "("))
         self.progSubBtn.setText(_translate("CalcWidget", "-"))
         self.progFourBtn.setText(_translate("CalcWidget", "4"))
-        self.progComBtn.setText(_translate("CalcWidget", ","))
         self.progBackspaceBtn.setText(_translate("CalcWidget", "⌫"))
         self.progEqBtn.setText(_translate("CalcWidget", "="))
         self.progSixBtn.setText(_translate("CalcWidget", "6"))

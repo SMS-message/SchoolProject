@@ -116,7 +116,12 @@ class CalcWindow(QWidget, Ui_CalcWidget):
             button.clicked.connect(self.add_oper_prog)
 
         self.progEqBtn.clicked.connect(self.run_prog)
-        #  self.progLineEdit.textChanged.connect(self.reload_numbers)
+        self.progClearBtn.clicked.connect(self.clear_prog)
+        self.progBackspaceBtn.clicked.connect(self.backspace_prog)
+        self.progNegBtn.clicked.connect(self.negative_prog)
+
+        self.progLineEdit.textChanged.connect(self.reload_numbers)
+        self.comboBox.currentIndexChanged.connect(self.reload_calc)
 
     def keyPressEvent(self, event):
         try:
@@ -162,6 +167,9 @@ class CalcWindow(QWidget, Ui_CalcWidget):
     def negative(self):
         self.defaultLineEdit.setText(f'-{self.defaultLineEdit.text()}')
 
+    def negative_prog(self):
+        self.progLineEdit.setText(f'-{self.progLineEdit.text()}')
+
     def pow_2(self):
         self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} ** 2 ')
 
@@ -184,8 +192,14 @@ class CalcWindow(QWidget, Ui_CalcWidget):
     def clear(self):
         self.defaultLineEdit.setText('')
 
+    def clear_prog(self):
+        self.progLineEdit.setText('')
+
     def backspace(self):
         self.defaultLineEdit.setText(self.defaultLineEdit.text()[:-1])
+
+    def backspace_prog(self):
+        self.progLineEdit.setText(f'{self.progLineEdit.text()[:-1]}')
 
     def add_oper(self):
         self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} {self.sender().text()} ')
@@ -195,7 +209,8 @@ class CalcWindow(QWidget, Ui_CalcWidget):
 
     def add_text(self):
         try:
-            if self.defaultLineEdit.text() and self.defaultLineEdit.text()[-1].isdigit() and not ',' in self.defaultLineEdit.text():
+            if self.defaultLineEdit.text() and self.defaultLineEdit.text()[
+                -1].isdigit() and not ',' in self.defaultLineEdit.text():
                 self.defaultLineEdit.setText(
                     f'{self.defaultLineEdit.text()}{self.sender().text()}'.replace(',', '.', 1))
             else:
@@ -220,7 +235,49 @@ class CalcWindow(QWidget, Ui_CalcWidget):
 
     def run_prog(self):
         try:
-            self.progLineEdit.setText(str(eval(self.progLineEdit.text())))
+            string = self.progLineEdit.text()
+            filtered_ints = tuple(
+                filter(lambda x: x.strip('(').isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(x), string.split()))
+            match self.comboBox.currentText():
+                case 'HEX':
+                    mapped_ints = tuple(map(lambda x: str(int(x, 16)), filtered_ints))
+                    res = []
+                    k = 0
+                    for elem in string.split():
+                        if elem.isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(elem):
+                            res.append(mapped_ints[k])
+                            k += 1
+                        else:
+                            res.append(elem)
+                    res = ' '.join(res)
+                    self.progLineEdit.setText(f'{eval(res):x}'.upper())
+                case 'DEC':
+                    res = self.progLineEdit.text()
+                    self.progLineEdit.setText(f'{eval(res)}')
+                case 'OCT':
+                    mapped_ints = tuple(map(lambda x: int(x, 8), filtered_ints))
+                    res = []
+                    k = 0
+                    for elem in string.split():
+                        if elem.isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(elem):
+                            res.append(mapped_ints[k])
+                            k += 1
+                        else:
+                            res.append(elem)
+                    res = ' '.join(res)
+                    self.progLineEdit.setText(f'{eval(res):o}')
+                case 'BIN':
+                    mapped_ints = tuple(map(lambda x: int(x, 10), filtered_ints))
+                    res = []
+                    k = 0
+                    for elem in string.split():
+                        if elem.isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(elem):
+                            res.append(mapped_ints[k])
+                            k += 1
+                        else:
+                            res.append(elem)
+                    res = ' '.join(res)
+                    self.progLineEdit.setText(f'{eval(res):b}')
             self.reload_numbers()
         except SyntaxError as err:
             show_err(self, err, text='Синтаксическая ошибка! Введите данные корректно')
@@ -229,7 +286,13 @@ class CalcWindow(QWidget, Ui_CalcWidget):
 
     def reload_numbers(self):
         try:
+            if {'+', '-', '*', '<', '>', '%', '/', '(', ')'} & set(self.progLineEdit.text()):
+                return
             if not self.progLineEdit.text():
+                self.hexEdit.setText('0')
+                self.decEdit.setText('0')
+                self.octEdit.setText('0')
+                self.binEdit.setText('0')
                 return
             match self.comboBox.currentText():
                 case 'HEX':
@@ -246,3 +309,66 @@ class CalcWindow(QWidget, Ui_CalcWidget):
             self.binEdit.setText(f'{integer:b}')
         except Exception as err:
             show_err(self, err)
+
+    def reload_calc(self):
+        match self.comboBox.currentText():
+            case 'HEX':
+                self.progTwoBtn.setDisabled(False)
+                self.progThreeBtn.setDisabled(False)
+                self.progFourBtn.setDisabled(False)
+                self.progFiveBtn.setDisabled(False)
+                self.progSixBtn.setDisabled(False)
+                self.progSevenBtn.setDisabled(False)
+                self.progEightBtn.setDisabled(False)
+                self.progNineBtn.setDisabled(False)
+                self.progABtn.setDisabled(False)
+                self.progBBtn.setDisabled(False)
+                self.progCBtn.setDisabled(False)
+                self.progDBtn.setDisabled(False)
+                self.progEBtn.setDisabled(False)
+                self.progFBtn.setDisabled(False)
+            case 'DEC':
+                self.progTwoBtn.setDisabled(False)
+                self.progThreeBtn.setDisabled(False)
+                self.progFourBtn.setDisabled(False)
+                self.progFiveBtn.setDisabled(False)
+                self.progSixBtn.setDisabled(False)
+                self.progSevenBtn.setDisabled(False)
+                self.progEightBtn.setDisabled(False)
+                self.progNineBtn.setDisabled(False)
+                self.progABtn.setDisabled(True)
+                self.progBBtn.setDisabled(True)
+                self.progCBtn.setDisabled(True)
+                self.progDBtn.setDisabled(True)
+                self.progEBtn.setDisabled(True)
+                self.progFBtn.setDisabled(True)
+            case 'OCT':
+                self.progTwoBtn.setDisabled(False)
+                self.progThreeBtn.setDisabled(False)
+                self.progFourBtn.setDisabled(False)
+                self.progFiveBtn.setDisabled(False)
+                self.progSixBtn.setDisabled(False)
+                self.progSevenBtn.setDisabled(False)
+                self.progEightBtn.setDisabled(True)
+                self.progNineBtn.setDisabled(True)
+                self.progABtn.setDisabled(True)
+                self.progBBtn.setDisabled(True)
+                self.progCBtn.setDisabled(True)
+                self.progDBtn.setDisabled(True)
+                self.progEBtn.setDisabled(True)
+                self.progFBtn.setDisabled(True)
+            case 'BIN':
+                self.progTwoBtn.setDisabled(True)
+                self.progThreeBtn.setDisabled(True)
+                self.progFourBtn.setDisabled(True)
+                self.progFiveBtn.setDisabled(True)
+                self.progSixBtn.setDisabled(True)
+                self.progSevenBtn.setDisabled(True)
+                self.progEightBtn.setDisabled(True)
+                self.progNineBtn.setDisabled(True)
+                self.progABtn.setDisabled(True)
+                self.progBBtn.setDisabled(True)
+                self.progCBtn.setDisabled(True)
+                self.progDBtn.setDisabled(True)
+                self.progEBtn.setDisabled(True)
+                self.progFBtn.setDisabled(True)
