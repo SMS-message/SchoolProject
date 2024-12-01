@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_CalcWidget(object):
     def setupUi(self, CalcWidget):
         CalcWidget.setObjectName("CalcWidget")
-        CalcWidget.resize(330, 411)
+        CalcWidget.resize(330, 455)
         CalcWidget.setMaximumSize(QtCore.QSize(330, 16777215))
         CalcWidget.setStyleSheet("QWidget {\n"
 "    color: white;\n"
@@ -95,6 +95,7 @@ class Ui_CalcWidget(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.defaultLineEdit = QtWidgets.QLineEdit(parent=self.Calc)
         self.defaultLineEdit.setMinimumSize(QtCore.QSize(0, 40))
+        self.defaultLineEdit.setText("")
         self.defaultLineEdit.setObjectName("defaultLineEdit")
         self.verticalLayout.addWidget(self.defaultLineEdit)
         self.engiCalcLayout = QtWidgets.QGridLayout()
@@ -133,6 +134,7 @@ class Ui_CalcWidget(object):
         self.engiCalcLayout.addWidget(self.negBtn, 5, 1, 1, 1)
         self.comBtn = QtWidgets.QPushButton(parent=self.Calc)
         self.comBtn.setObjectName("comBtn")
+        self.buttonGroup.addButton(self.comBtn)
         self.engiCalcLayout.addWidget(self.comBtn, 5, 3, 1, 1)
         self.closeBracketBtn = QtWidgets.QPushButton(parent=self.Calc)
         self.closeBracketBtn.setObjectName("closeBracketBtn")

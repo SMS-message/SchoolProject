@@ -1,5 +1,6 @@
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QMainWindow, QWidget
+from PyQt6.QtCore import Qt
 from math import sqrt, log
 
 from data.functions import *
@@ -100,6 +101,77 @@ class CalcWindow(QWidget, Ui_CalcWidget):
         self.backspaceBtn.clicked.connect(self.backspace)
         self.eqBtn.clicked.connect(self.run)
 
+        self.xPow2Btn.clicked.connect(self.pow_2)
+        self.xPowYBtn.clicked.connect(self.pow_y)
+        self.tenPowYBtn.clicked.connect(self.pow_10)
+        self.sqrtBtn.clicked.connect(self.sqrt)
+        self.logBtn.clicked.connect(self.log)
+        self.absBtn.clicked.connect(self.abs)
+        self.negBtn.clicked.connect(self.negative)
+
+    def keyPressEvent(self, event):
+        try:
+            match event.key():
+                case Qt.Key.Key_Return:
+                    self.run()
+                case Qt.Key.Key_1:
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}1')
+                case Qt.Key.Key_2:
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}2')
+                case Qt.Key.Key_3:
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}3')
+                case Qt.Key.Key_4:
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}4')
+                case Qt.Key.Key_5:
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}5')
+                case Qt.Key.Key_6:
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}6')
+                case Qt.Key.Key_7:
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}7')
+                case Qt.Key.Key_8:
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}8')
+                case Qt.Key.Key_9:
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}9')
+                case Qt.Key.Key_0:
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}0')
+                case Qt.Key.Key_Plus:
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} + ')
+                case Qt.Key.Key_Minus:
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} - ')
+                case Qt.Key.Key_division:
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} / ')
+                case Qt.Key.Key_multiply:
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} * ')
+                case Qt.Key.Key_AsciiCircum:
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} ** ')
+                case Qt.Key.Key_Backspace:
+                    self.backspace()
+
+        except Exception as err:
+            show_err(self, err)
+
+    def negative(self):
+        self.defaultLineEdit.setText(f'-{self.defaultLineEdit.text()}')
+
+    def pow_2(self):
+        self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} ** 2 ')
+
+    def pow_y(self):
+        self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} ** ')
+
+    def pow_10(self):
+        self.defaultLineEdit.setText(
+            f'{self.defaultLineEdit.text()} * 10 ** ' if self.defaultLineEdit.text() else '(10 ** ')
+
+    def sqrt(self):
+        self.defaultLineEdit.setText(f'sqrt({self.defaultLineEdit.text()}) ')
+
+    def log(self):
+        self.defaultLineEdit.setText(f'log({self.defaultLineEdit.text()}, ')
+
+    def abs(self):
+        self.defaultLineEdit.setText(f'abs({self.defaultLineEdit.text()}) ')
+
     def clear(self):
         self.defaultLineEdit.setText('')
 
@@ -110,7 +182,15 @@ class CalcWindow(QWidget, Ui_CalcWidget):
         self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} {self.sender().text()} ')
 
     def add_text(self):
-        self.defaultLineEdit.setText(self.defaultLineEdit.text() + self.sender().text())
+        try:
+            if self.defaultLineEdit.text() and self.defaultLineEdit.text()[-1].isdigit() and not ',' in self.defaultLineEdit.text():
+                self.defaultLineEdit.setText(
+                    f'{self.defaultLineEdit.text()}{self.sender().text()}'.replace(',', '.', 1))
+            else:
+                self.defaultLineEdit.setText(
+                    f'{self.defaultLineEdit.text()}{self.sender().text()}')
+        except Exception as err:
+            show_err(self, err)
 
     def run(self):
         try:
