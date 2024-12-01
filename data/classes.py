@@ -109,6 +109,15 @@ class CalcWindow(QWidget, Ui_CalcWidget):
         self.absBtn.clicked.connect(self.abs)
         self.negBtn.clicked.connect(self.negative)
 
+        for button in self.progButtonGroup.buttons():
+            button.clicked.connect(self.add_text_prog)
+
+        for button in self.progOperationsButtonGroup.buttons():
+            button.clicked.connect(self.add_oper_prog)
+
+        self.progEqBtn.clicked.connect(self.run_prog)
+        #  self.progLineEdit.textChanged.connect(self.reload_numbers)
+
     def keyPressEvent(self, event):
         try:
             match event.key():
@@ -181,6 +190,9 @@ class CalcWindow(QWidget, Ui_CalcWidget):
     def add_oper(self):
         self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} {self.sender().text()} ')
 
+    def add_oper_prog(self):
+        self.progLineEdit.setText(f'{self.progLineEdit.text()} {self.sender().text()} ')
+
     def add_text(self):
         try:
             if self.defaultLineEdit.text() and self.defaultLineEdit.text()[-1].isdigit() and not ',' in self.defaultLineEdit.text():
@@ -192,10 +204,45 @@ class CalcWindow(QWidget, Ui_CalcWidget):
         except Exception as err:
             show_err(self, err)
 
+    def add_text_prog(self):
+        try:
+            self.progLineEdit.setText(f'{self.progLineEdit.text()}{self.sender().text()}')
+        except Exception as err:
+            show_err(self, err)
+
     def run(self):
         try:
             self.defaultLineEdit.setText(str(eval(self.defaultLineEdit.text())))
         except SyntaxError as err:
             show_err(self, err, text='Синтаксическая ошибка! Введите данные корректно')
+        except Exception as err:
+            show_err(self, err)
+
+    def run_prog(self):
+        try:
+            self.progLineEdit.setText(str(eval(self.progLineEdit.text())))
+            self.reload_numbers()
+        except SyntaxError as err:
+            show_err(self, err, text='Синтаксическая ошибка! Введите данные корректно')
+        except Exception as err:
+            show_err(self, err)
+
+    def reload_numbers(self):
+        try:
+            if not self.progLineEdit.text():
+                return
+            match self.comboBox.currentText():
+                case 'HEX':
+                    integer = int(self.progLineEdit.text(), 16)
+                case 'DEC':
+                    integer = int(self.progLineEdit.text())
+                case 'OCT':
+                    integer = int(self.progLineEdit.text(), 8)
+                case 'BIN':
+                    integer = int(self.progLineEdit.text(), 2)
+            self.hexEdit.setText(f'{integer:x}'.upper())
+            self.decEdit.setText(f'{integer:}')
+            self.octEdit.setText(f'{integer:o}')
+            self.binEdit.setText(f'{integer:b}')
         except Exception as err:
             show_err(self, err)

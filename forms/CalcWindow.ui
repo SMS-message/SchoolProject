@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>330</width>
-    <height>455</height>
+    <height>574</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -24,6 +24,11 @@
 	color: white;
 	background-color: rgb(18, 18, 18);
 	font-family: Open Sans;
+}
+
+Line {
+	border: 1px;
+	background:  #CCCCCC;
 }
 
 QPushButton {
@@ -96,7 +101,7 @@ QTabBar::tab:selected {
    </string>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="Calc">
       <attribute name="title">
@@ -117,6 +122,19 @@ QTabBar::tab:selected {
             <string/>
            </property>
           </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
          </item>
          <item>
           <layout class="QGridLayout" name="engiCalcLayout">
@@ -409,18 +427,497 @@ QPushButton:pressed {
          </item>
         </layout>
        </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="ProgCalc">
+      <property name="styleSheet">
+       <string notr="true">QComboBox {
+	border-color: #353535;
+}</string>
+      </property>
+      <attribute name="title">
+       <string>Системы счисления</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
        <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
+        <widget class="QLineEdit" name="progLineEdit">
+         <property name="minimumSize">
           <size>
-           <width>20</width>
+           <width>0</width>
            <height>40</height>
           </size>
          </property>
-        </spacer>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QFormLayout" name="formLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>HEX</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="hexEdit">
+           <property name="styleSheet">
+            <string notr="true">QLineEdit {
+	font-size: 12px;
+}</string>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>DEC</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="decEdit">
+           <property name="styleSheet">
+            <string notr="true">QLineEdit {
+	font-size: 12px;
+}</string>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>OCT</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="octEdit">
+           <property name="styleSheet">
+            <string notr="true">QLineEdit {
+	font-size: 12px;
+}</string>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>BIN</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0" colspan="2">
+          <widget class="Line" name="line">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Mode:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QComboBox" name="comboBox">
+           <item>
+            <property name="text">
+             <string>HEX</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>DEC</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>OCT</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>BIN</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="binEdit">
+           <property name="styleSheet">
+            <string notr="true">QLineEdit {
+	font-size: 12px;
+}</string>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="progCalcLayout">
+         <property name="verticalSpacing">
+          <number>2</number>
+         </property>
+         <item row="1" column="0">
+          <widget class="QPushButton" name="progBBtn">
+           <property name="text">
+            <string>B</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QPushButton" name="progOneBtn">
+           <property name="text">
+            <string>1</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QPushButton" name="openBracketBtn_5">
+           <property name="text">
+            <string>(</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="3" column="4">
+          <widget class="QPushButton" name="progSubBtn">
+           <property name="text">
+            <string>-</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progOperationsButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QPushButton" name="progFourBtn">
+           <property name="text">
+            <string>4</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="5" column="3">
+          <widget class="QPushButton" name="progComBtn">
+           <property name="text">
+            <string>,</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QPushButton" name="progBackspaceBtn">
+           <property name="font">
+            <font>
+             <family>Open Sans</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton:hover {
+	border-color: #774444;
+	border-width: 2px;
+
+	width: 300px;
+	height: 30px;
+}
+
+QPushButton:pressed {
+	border-color: #CC0000;
+	border-width: 2px;
+	
+	width: 300px;
+	height: 30px;
+}
+</string>
+           </property>
+           <property name="text">
+            <string>⌫</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="4">
+          <widget class="QPushButton" name="progEqBtn">
+           <property name="text">
+            <string>=</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="3">
+          <widget class="QPushButton" name="progSixBtn">
+           <property name="text">
+            <string>6</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QPushButton" name="progEightBtn">
+           <property name="text">
+            <string>8</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="4" column="4">
+          <widget class="QPushButton" name="progAddBtn">
+           <property name="text">
+            <string>+</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progOperationsButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QPushButton" name="progEBtn">
+           <property name="text">
+            <string>E</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QPushButton" name="progSevenBtn">
+           <property name="text">
+            <string>7</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="progABtn">
+           <property name="text">
+            <string>A</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="4" column="3">
+          <widget class="QPushButton" name="progThreeBtn">
+           <property name="text">
+            <string>3</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="2" column="4">
+          <widget class="QPushButton" name="progMulBtn">
+           <property name="text">
+            <string>*</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progOperationsButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QPushButton" name="progNegBtn">
+           <property name="text">
+            <string>+/-</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QPushButton" name="absBtn_5">
+           <property name="text">
+            <string>%</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progOperationsButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QPushButton" name="progFBtn">
+           <property name="text">
+            <string>F</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="5" column="2">
+          <widget class="QPushButton" name="zeroBtn_5">
+           <property name="text">
+            <string>0</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="4" column="2">
+          <widget class="QPushButton" name="progTwoBtn">
+           <property name="text">
+            <string>2</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QPushButton" name="closeBracketBtn_5">
+           <property name="text">
+            <string>)</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QPushButton" name="progClearBtn">
+           <property name="styleSheet">
+            <string notr="true">QPushButton:hover {
+	border-color: #AA7744;
+	border-width: 2px;
+
+	width: 300px;
+	height: 30px;
+}
+
+QPushButton:pressed {
+	border-color: #FFCC11;
+	border-width: 2px;
+	
+	width: 300px;
+	height: 30px;
+}
+</string>
+           </property>
+           <property name="text">
+            <string>CE</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QPushButton" name="progCBtn">
+           <property name="text">
+            <string>C</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QPushButton" name="progDBtn">
+           <property name="text">
+            <string>D</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="2" column="3">
+          <widget class="QPushButton" name="progNineBtn">
+           <property name="text">
+            <string>9</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="leftBitShiftBtn">
+           <property name="text">
+            <string>&lt;&lt;</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progOperationsButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QPushButton" name="progFiveBtn">
+           <property name="text">
+            <string>5</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="1" column="4">
+          <widget class="QPushButton" name="progDivBtn">
+           <property name="text">
+            <string>/</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progOperationsButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QPushButton" name="rightBitShiftBtn">
+           <property name="text">
+            <string>&gt;&gt;</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">progOperationsButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -453,5 +950,7 @@ QPushButton:pressed {
  <buttongroups>
   <buttongroup name="buttonGroup"/>
   <buttongroup name="operationsButtonGroup"/>
+  <buttongroup name="progButtonGroup"/>
+  <buttongroup name="progOperationsButtonGroup"/>
  </buttongroups>
 </ui>
