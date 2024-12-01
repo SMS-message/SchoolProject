@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>330</width>
-    <height>409</height>
+    <height>411</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -27,32 +27,31 @@
 }
 
 QPushButton {
+	color: white;
+
 	width: 50px;
 	height: 40px;
-	color: #FFF;
-	background-color: #303030;
-	border: solid;
-	border-width: 1px;
-	border-color: #353535;
-	border-radius: 1px;
-}
-
-QPushButton:hover {
-	background-color: #454545;
-}
-
-QPushButton:pressed {
-	border-color: #FFF;
-}
-
-QLineEdit {
-	color: #FFF;
-	background-color: #303030;
 	
 	border: solid;
 	border-color: #353535;
 	border-width: 1px;
-	border-radius: 2px;
+	border-radius: 8px;
+}
+
+QPushButton:hover {
+	border-color: rgb(170, 170, 170);
+	border-width: 2px;
+
+	width: 300px;
+	height: 30px;
+}
+
+QPushButton:pressed {
+	border-color: white;
+	border-width: 2px;
+	
+	width: 300px;
+	height: 30px;
 }
 </string>
   </property>
@@ -60,14 +59,25 @@ QLineEdit {
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="styleSheet">
-      <string notr="true">QTabWidget::pane {
+      <string notr="true">QLineEdit {
+	font-size: 16px;
+	padding: 2px; 
+	background-color: rgb(20, 20, 20);
+	border: solid;
+	border-color: #353535;
+	border-width: 1px;
+	border-radius: 10px;
+}
+
+QTabWidget::pane {
     border: none;
 	border-top: 1px solid #353535;
 }
 
 QTabBar::tab {
-	background-color: #303030;
-	
+	padding: 1px 1px 1px 1px;
+	font-family: open sans;	
+
 	height: 20px;
 	border: solid;
 
@@ -76,14 +86,14 @@ QTabBar::tab {
 QTabBar::tab:selected, QTabBar::tab:hover {
 	border-width: 1px;
 	border-color: #454545;
-    background: #353535;
 }
 
 QTabBar::tab:selected {
 	border-width: 1px;
     border-color: #454545;
 }
-</string>
+
+   </string>
      </property>
      <property name="currentIndex">
       <number>0</number>
@@ -115,6 +125,9 @@ QTabBar::tab:selected {
              <property name="text">
               <string>(</string>
              </property>
+             <attribute name="buttonGroup">
+              <string notr="true">buttonGroup</string>
+             </attribute>
             </widget>
            </item>
            <item row="5" column="0">
@@ -190,6 +203,9 @@ QTabBar::tab:selected {
              <property name="text">
               <string>)</string>
              </property>
+             <attribute name="buttonGroup">
+              <string notr="true">buttonGroup</string>
+             </attribute>
             </widget>
            </item>
            <item row="4" column="0">
@@ -204,6 +220,9 @@ QTabBar::tab:selected {
              <property name="text">
               <string>-</string>
              </property>
+             <attribute name="buttonGroup">
+              <string notr="true">operationsButtonGroup</string>
+             </attribute>
             </widget>
            </item>
            <item row="4" column="1">
@@ -228,6 +247,9 @@ QTabBar::tab:selected {
              <property name="text">
               <string>/</string>
              </property>
+             <attribute name="buttonGroup">
+              <string notr="true">operationsButtonGroup</string>
+             </attribute>
             </widget>
            </item>
            <item row="2" column="3">
@@ -255,6 +277,9 @@ QTabBar::tab:selected {
              <property name="text">
               <string>*</string>
              </property>
+             <attribute name="buttonGroup">
+              <string notr="true">operationsButtonGroup</string>
+             </attribute>
             </widget>
            </item>
            <item row="5" column="4">
@@ -306,12 +331,71 @@ QTabBar::tab:selected {
              <property name="text">
               <string>+</string>
              </property>
+             <attribute name="buttonGroup">
+              <string notr="true">operationsButtonGroup</string>
+             </attribute>
             </widget>
            </item>
            <item row="1" column="0">
             <widget class="QPushButton" name="xPow2Btn">
              <property name="text">
               <string>x²</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QPushButton" name="clearBtn">
+             <property name="styleSheet">
+              <string notr="true">QPushButton:hover {
+	border-color: #AA7744;
+	border-width: 2px;
+
+	width: 300px;
+	height: 30px;
+}
+
+QPushButton:pressed {
+	border-color: #FFCC11;
+	border-width: 2px;
+	
+	width: 300px;
+	height: 30px;
+}
+</string>
+             </property>
+             <property name="text">
+              <string>CE</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="4">
+            <widget class="QPushButton" name="backspaceBtn">
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton:hover {
+	border-color: #774444;
+	border-width: 2px;
+
+	width: 300px;
+	height: 30px;
+}
+
+QPushButton:pressed {
+	border-color: #CC0000;
+	border-width: 2px;
+	
+	width: 300px;
+	height: 30px;
+}
+</string>
+             </property>
+             <property name="text">
+              <string>⌫</string>
              </property>
             </widget>
            </item>
@@ -362,5 +446,6 @@ QTabBar::tab:selected {
  <connections/>
  <buttongroups>
   <buttongroup name="buttonGroup"/>
+  <buttongroup name="operationsButtonGroup"/>
  </buttongroups>
 </ui>

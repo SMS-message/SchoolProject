@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_CalcWidget(object):
     def setupUi(self, CalcWidget):
         CalcWidget.setObjectName("CalcWidget")
-        CalcWidget.resize(330, 409)
+        CalcWidget.resize(330, 411)
         CalcWidget.setMaximumSize(QtCore.QSize(330, 16777215))
         CalcWidget.setStyleSheet("QWidget {\n"
 "    color: white;\n"
@@ -21,45 +21,55 @@ class Ui_CalcWidget(object):
 "}\n"
 "\n"
 "QPushButton {\n"
+"    color: white;\n"
+"\n"
 "    width: 50px;\n"
 "    height: 40px;\n"
-"    color: #FFF;\n"
-"    background-color: #303030;\n"
-"    border: solid;\n"
-"    border-width: 1px;\n"
-"    border-color: #353535;\n"
-"    border-radius: 1px;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-color: #454545;\n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"    border-color: #FFF;\n"
-"}\n"
-"\n"
-"QLineEdit {\n"
-"    color: #FFF;\n"
-"    background-color: #303030;\n"
 "    \n"
 "    border: solid;\n"
 "    border-color: #353535;\n"
 "    border-width: 1px;\n"
-"    border-radius: 2px;\n"
+"    border-radius: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    border-color: rgb(170, 170, 170);\n"
+"    border-width: 2px;\n"
+"\n"
+"    width: 300px;\n"
+"    height: 30px;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    border-color: white;\n"
+"    border-width: 2px;\n"
+"    \n"
+"    width: 300px;\n"
+"    height: 30px;\n"
 "}\n"
 "")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(CalcWidget)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.tabWidget = QtWidgets.QTabWidget(parent=CalcWidget)
-        self.tabWidget.setStyleSheet("QTabWidget::pane {\n"
+        self.tabWidget.setStyleSheet("QLineEdit {\n"
+"    font-size: 16px;\n"
+"    padding: 2px; \n"
+"    background-color: rgb(20, 20, 20);\n"
+"    border: solid;\n"
+"    border-color: #353535;\n"
+"    border-width: 1px;\n"
+"    border-radius: 10px;\n"
+"}\n"
+"\n"
+"QTabWidget::pane {\n"
 "    border: none;\n"
 "    border-top: 1px solid #353535;\n"
 "}\n"
 "\n"
 "QTabBar::tab {\n"
-"    background-color: #303030;\n"
-"    \n"
+"    padding: 1px 1px 1px 1px;\n"
+"    font-family: open sans;    \n"
+"\n"
 "    height: 20px;\n"
 "    border: solid;\n"
 "\n"
@@ -68,14 +78,14 @@ class Ui_CalcWidget(object):
 "QTabBar::tab:selected, QTabBar::tab:hover {\n"
 "    border-width: 1px;\n"
 "    border-color: #454545;\n"
-"    background: #353535;\n"
 "}\n"
 "\n"
 "QTabBar::tab:selected {\n"
 "    border-width: 1px;\n"
 "    border-color: #454545;\n"
 "}\n"
-"")
+"\n"
+"   ")
         self.tabWidget.setObjectName("tabWidget")
         self.Calc = QtWidgets.QWidget()
         self.Calc.setObjectName("Calc")
@@ -92,14 +102,15 @@ class Ui_CalcWidget(object):
         self.engiCalcLayout.setObjectName("engiCalcLayout")
         self.openBracketBtn = QtWidgets.QPushButton(parent=self.Calc)
         self.openBracketBtn.setObjectName("openBracketBtn")
+        self.buttonGroup = QtWidgets.QButtonGroup(CalcWidget)
+        self.buttonGroup.setObjectName("buttonGroup")
+        self.buttonGroup.addButton(self.openBracketBtn)
         self.engiCalcLayout.addWidget(self.openBracketBtn, 1, 1, 1, 1)
         self.logBtn = QtWidgets.QPushButton(parent=self.Calc)
         self.logBtn.setObjectName("logBtn")
         self.engiCalcLayout.addWidget(self.logBtn, 5, 0, 1, 1)
         self.threeBtn = QtWidgets.QPushButton(parent=self.Calc)
         self.threeBtn.setObjectName("threeBtn")
-        self.buttonGroup = QtWidgets.QButtonGroup(CalcWidget)
-        self.buttonGroup.setObjectName("buttonGroup")
         self.buttonGroup.addButton(self.threeBtn)
         self.engiCalcLayout.addWidget(self.threeBtn, 4, 3, 1, 1)
         self.fiveBtn = QtWidgets.QPushButton(parent=self.Calc)
@@ -125,12 +136,16 @@ class Ui_CalcWidget(object):
         self.engiCalcLayout.addWidget(self.comBtn, 5, 3, 1, 1)
         self.closeBracketBtn = QtWidgets.QPushButton(parent=self.Calc)
         self.closeBracketBtn.setObjectName("closeBracketBtn")
+        self.buttonGroup.addButton(self.closeBracketBtn)
         self.engiCalcLayout.addWidget(self.closeBracketBtn, 1, 2, 1, 1)
         self.tenPowYBtn = QtWidgets.QPushButton(parent=self.Calc)
         self.tenPowYBtn.setObjectName("tenPowYBtn")
         self.engiCalcLayout.addWidget(self.tenPowYBtn, 4, 0, 1, 1)
         self.subBtn = QtWidgets.QPushButton(parent=self.Calc)
         self.subBtn.setObjectName("subBtn")
+        self.operationsButtonGroup = QtWidgets.QButtonGroup(CalcWidget)
+        self.operationsButtonGroup.setObjectName("operationsButtonGroup")
+        self.operationsButtonGroup.addButton(self.subBtn)
         self.engiCalcLayout.addWidget(self.subBtn, 3, 4, 1, 1)
         self.oneBtn = QtWidgets.QPushButton(parent=self.Calc)
         self.oneBtn.setObjectName("oneBtn")
@@ -141,6 +156,7 @@ class Ui_CalcWidget(object):
         self.engiCalcLayout.addWidget(self.xPowYBtn, 2, 0, 1, 1)
         self.divBtn = QtWidgets.QPushButton(parent=self.Calc)
         self.divBtn.setObjectName("divBtn")
+        self.operationsButtonGroup.addButton(self.divBtn)
         self.engiCalcLayout.addWidget(self.divBtn, 1, 4, 1, 1)
         self.nineBtn = QtWidgets.QPushButton(parent=self.Calc)
         self.nineBtn.setObjectName("nineBtn")
@@ -152,6 +168,7 @@ class Ui_CalcWidget(object):
         self.engiCalcLayout.addWidget(self.zeroBtn, 5, 2, 1, 1)
         self.mulBtn = QtWidgets.QPushButton(parent=self.Calc)
         self.mulBtn.setObjectName("mulBtn")
+        self.operationsButtonGroup.addButton(self.mulBtn)
         self.engiCalcLayout.addWidget(self.mulBtn, 2, 4, 1, 1)
         self.eqBtn = QtWidgets.QPushButton(parent=self.Calc)
         self.eqBtn.setObjectName("eqBtn")
@@ -173,10 +190,53 @@ class Ui_CalcWidget(object):
         self.engiCalcLayout.addWidget(self.sixBtn, 3, 3, 1, 1)
         self.addBtn = QtWidgets.QPushButton(parent=self.Calc)
         self.addBtn.setObjectName("addBtn")
+        self.operationsButtonGroup.addButton(self.addBtn)
         self.engiCalcLayout.addWidget(self.addBtn, 4, 4, 1, 1)
         self.xPow2Btn = QtWidgets.QPushButton(parent=self.Calc)
         self.xPow2Btn.setObjectName("xPow2Btn")
         self.engiCalcLayout.addWidget(self.xPow2Btn, 1, 0, 1, 1)
+        self.clearBtn = QtWidgets.QPushButton(parent=self.Calc)
+        self.clearBtn.setStyleSheet("QPushButton:hover {\n"
+"    border-color: #AA7744;\n"
+"    border-width: 2px;\n"
+"\n"
+"    width: 300px;\n"
+"    height: 30px;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    border-color: #FFCC11;\n"
+"    border-width: 2px;\n"
+"    \n"
+"    width: 300px;\n"
+"    height: 30px;\n"
+"}\n"
+"")
+        self.clearBtn.setObjectName("clearBtn")
+        self.engiCalcLayout.addWidget(self.clearBtn, 0, 3, 1, 1)
+        self.backspaceBtn = QtWidgets.QPushButton(parent=self.Calc)
+        font = QtGui.QFont()
+        font.setFamily("Open Sans")
+        font.setPointSize(12)
+        self.backspaceBtn.setFont(font)
+        self.backspaceBtn.setStyleSheet("QPushButton:hover {\n"
+"    border-color: #774444;\n"
+"    border-width: 2px;\n"
+"\n"
+"    width: 300px;\n"
+"    height: 30px;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    border-color: #CC0000;\n"
+"    border-width: 2px;\n"
+"    \n"
+"    width: 300px;\n"
+"    height: 30px;\n"
+"}\n"
+"")
+        self.backspaceBtn.setObjectName("backspaceBtn")
+        self.engiCalcLayout.addWidget(self.backspaceBtn, 0, 4, 1, 1)
         self.verticalLayout.addLayout(self.engiCalcLayout)
         self.verticalLayout_6.addLayout(self.verticalLayout)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
@@ -224,5 +284,7 @@ class Ui_CalcWidget(object):
         self.sixBtn.setText(_translate("CalcWidget", "6"))
         self.addBtn.setText(_translate("CalcWidget", "+"))
         self.xPow2Btn.setText(_translate("CalcWidget", "x²"))
+        self.clearBtn.setText(_translate("CalcWidget", "CE"))
+        self.backspaceBtn.setText(_translate("CalcWidget", "⌫"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.Calc), _translate("CalcWidget", "Обычный"))
         self.returnBtn.setText(_translate("CalcWidget", "Вернуться"))

@@ -1,6 +1,5 @@
-from PyQt6 import QtCore
+from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QMainWindow, QWidget
-
 from math import sqrt, log
 
 from data.functions import *
@@ -18,41 +17,30 @@ class UniversalHelper(QMainWindow, Ui_MainWindow):
         self.win = QWidget
         self.wins: list[QWidget] = []
 
-        self.eqBtn.clicked.connect(self.open_eq_win)
-        self.calcBtn.clicked.connect(self.open_calc_win)
+        self.setWindowIcon(QIcon('img/favicon.ico'))
 
-    def open_eq_win(self):
+        self.eqBtn.clicked.connect(self.add_widget)
+        self.calcBtn.clicked.connect(self.add_widget)
+
+    def add_widget(self):
+        self.textFrame.hide()
         try:
-            self.win = EquationWindow(self)
-
+            match self.sender().objectName():
+                case 'eqBtn':
+                    self.win = EquationWindow(self)
+                case 'calcBtn':
+                    self.win = CalcWindow(self)
             self.wins.append(self.win)
-            self.horizontalLayout.addWidget(self.win)
-            self.resize(int(self.width() * 1.2), 600)
-            self.textFrame.hide()
+            self.widgetsLayout.addWidget(self.win)
 
             self.win.returnBtn.clicked.connect(self.return_text)
-
-        except Exception as err:
-            show_err(self, err)
-
-    def open_calc_win(self):
-        try:
-            self.textFrame.hide()
-            self.win = CalcWindow(self)
-
-            self.wins.append(self.win)
-            self.horizontalLayout.addWidget(self.win)
-
-
-            self.win.returnBtn.clicked.connect(self.return_text)
-
         except Exception as err:
             show_err(self, err)
 
     def return_text(self):
         try:
             widget = self.sender().parent()
-            widget.hide()
+            widget.close()
             self.wins = self.wins[:self.wins.index(widget)] + self.wins[self.wins.index(widget) + 1:]
             self.resize(self.width() - widget.width(), 600)
             if not self.wins:
@@ -105,5 +93,29 @@ class CalcWindow(QWidget, Ui_CalcWidget):
         for button in self.buttonGroup.buttons():
             button.clicked.connect(self.add_text)
 
+        for button in self.operationsButtonGroup.buttons():
+            button.clicked.connect(self.add_oper)
+
+        self.clearBtn.clicked.connect(self.clear)
+        self.backspaceBtn.clicked.connect(self.backspace)
+        self.eqBtn.clicked.connect(self.run)
+
+    def clear(self):
+        self.defaultLineEdit.setText('')
+
+    def backspace(self):
+        self.defaultLineEdit.setText(self.defaultLineEdit.text()[:-1])
+
+    def add_oper(self):
+        self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} {self.sender().text()} ')
+
     def add_text(self):
         self.defaultLineEdit.setText(self.defaultLineEdit.text() + self.sender().text())
+
+    def run(self):
+        try:
+            self.defaultLineEdit.setText(str(eval(self.defaultLineEdit.text())))
+        except SyntaxError as err:
+            show_err(self, err, text='Синтаксическая ошибка! Введите данные корректно')
+        except Exception as err:
+            show_err(self, err)

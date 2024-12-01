@@ -12,21 +12,27 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(837, 592)
+        MainWindow.resize(664, 592)
         font = QtGui.QFont()
         font.setFamily("Open Sans")
         MainWindow.setFont(font)
         MainWindow.setStyleSheet("QMainWindow {\n"
 "    background-color: rgb(18, 18, 18);\n"
+"    background-image: url(\'img/background.png\');\n"
+"}\n"
+"\n"
+"QWidget {\n"
+"    border-radius: 10px;\n"
 "}")
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.buttonsFrame = QtWidgets.QFrame(parent=self.centralwidget)
+        self.buttonsFrame.setMaximumSize(QtCore.QSize(150, 300))
         self.buttonsFrame.setStyleSheet("QFrame {\n"
-"    background-color: rgb(18, 18, 18);\n"
-"    \n"
+"    background-color: #121212;\n"
+"\n"
 "    border: solid;\n"
 "    border-color: rgb(45,55,50);\n"
 "    border-width: 2px;\n"
@@ -34,14 +40,13 @@ class Ui_MainWindow(object):
 "\n"
 "QPushButton {\n"
 "    color: white;\n"
-"    background: rgb(65, 65, 65);\n"
-"    \n"
+"\n"
 "    width: 300px;\n"
 "    height: 20px;\n"
 "    \n"
 "    border: solid;\n"
-"    border-color: black;\n"
-"    border-width: 0px;\n"
+"    border-color: #353535;\n"
+"    border-width: 1px;\n"
 "    border-radius: 8px;\n"
 "}\n"
 "\n"
@@ -65,26 +70,36 @@ class Ui_MainWindow(object):
         self.buttonsFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.buttonsFrame.setObjectName("buttonsFrame")
         self.buttons = QtWidgets.QVBoxLayout(self.buttonsFrame)
-        self.buttons.setContentsMargins(20, 150, 30, 300)
-        self.buttons.setSpacing(5)
+        self.buttons.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetDefaultConstraint)
+        self.buttons.setContentsMargins(5, 75, 5, 75)
+        self.buttons.setSpacing(0)
         self.buttons.setObjectName("buttons")
         self.calcBtn = QtWidgets.QPushButton(parent=self.buttonsFrame)
         self.calcBtn.setObjectName("calcBtn")
+        self.tabsButtonGroup = QtWidgets.QButtonGroup(MainWindow)
+        self.tabsButtonGroup.setObjectName("tabsButtonGroup")
+        self.tabsButtonGroup.addButton(self.calcBtn)
         self.buttons.addWidget(self.calcBtn)
         self.graphBtn = QtWidgets.QPushButton(parent=self.buttonsFrame)
         self.graphBtn.setObjectName("graphBtn")
+        self.tabsButtonGroup.addButton(self.graphBtn)
         self.buttons.addWidget(self.graphBtn)
         self.eqBtn = QtWidgets.QPushButton(parent=self.buttonsFrame)
         self.eqBtn.setObjectName("eqBtn")
+        self.tabsButtonGroup.addButton(self.eqBtn)
         self.buttons.addWidget(self.eqBtn)
         self.forLibBtn = QtWidgets.QPushButton(parent=self.buttonsFrame)
         self.forLibBtn.setObjectName("forLibBtn")
+        self.tabsButtonGroup.addButton(self.forLibBtn)
         self.buttons.addWidget(self.forLibBtn)
         self.bookLibButton = QtWidgets.QPushButton(parent=self.buttonsFrame)
         self.bookLibButton.setObjectName("bookLibButton")
+        self.tabsButtonGroup.addButton(self.bookLibButton)
         self.buttons.addWidget(self.bookLibButton)
         self.horizontalLayout.addWidget(self.buttonsFrame)
         self.textFrame = QtWidgets.QFrame(parent=self.centralwidget)
+        self.textFrame.setMinimumSize(QtCore.QSize(490, 0))
+        self.textFrame.setMaximumSize(QtCore.QSize(500, 16777215))
         self.textFrame.setObjectName("textFrame")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.textFrame)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -95,9 +110,10 @@ class Ui_MainWindow(object):
         font.setPointSize(20)
         self.mainLabel.setFont(font)
         self.mainLabel.setStyleSheet("QLabel {\n"
+"    padding: 5px 5px 5px 5px;\n"
 "    color: white;\n"
 "    border: solid;\n"
-"    border-color: rgb(45, 45, 45);\n"
+"    border-color: #CCCCCC;\n"
 "    border-width: 2px;\n"
 "    border-radius: 16px;\n"
 "}")
@@ -115,9 +131,9 @@ class Ui_MainWindow(object):
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.verticalLayout.addItem(spacerItem1)
         self.horizontalLayout.addWidget(self.textFrame)
-        self.widget = QtWidgets.QWidget(parent=self.centralwidget)
-        self.widget.setObjectName("widget")
-        self.horizontalLayout.addWidget(self.widget)
+        self.widgetsLayout = QtWidgets.QHBoxLayout()
+        self.widgetsLayout.setObjectName("widgetsLayout")
+        self.horizontalLayout.addLayout(self.widgetsLayout)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -131,5 +147,5 @@ class Ui_MainWindow(object):
         self.eqBtn.setText(_translate("MainWindow", "Уравнения"))
         self.forLibBtn.setText(_translate("MainWindow", "Библиотека формул"))
         self.bookLibButton.setText(_translate("MainWindow", "Библиотека учебников"))
-        self.mainLabel.setText(_translate("MainWindow", "Универсальный помощник в учёбе"))
+        self.mainLabel.setText(_translate("MainWindow", "Universal Helper"))
         self.label.setText(_translate("MainWindow", "Выберите вкладку слева"))

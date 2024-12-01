@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>664</width>
+    <width>672</width>
     <height>592</height>
    </rect>
   </property>
@@ -21,6 +21,11 @@
   <property name="styleSheet">
    <string notr="true">QMainWindow {
 	background-color: rgb(18, 18, 18);
+	background-image: url('img/background.png');
+}
+
+QWidget {
+	border-radius: 10px;
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -35,8 +40,8 @@
       </property>
       <property name="styleSheet">
        <string notr="true">QFrame {
-	background-color: rgb(18, 18, 18);
-	
+	background-color: #121212;
+
 	border: solid;
 	border-color: rgb(45,55,50);
 	border-width: 2px;
@@ -44,14 +49,13 @@
 
 QPushButton {
 	color: white;
-	background: rgb(65, 65, 65);
-	
+
 	width: 300px;
 	height: 20px;
 	
 	border: solid;
-	border-color: black;
-	border-width: 0px;
+	border-color: #353535;
+	border-width: 1px;
 	border-radius: 8px;
 }
 
@@ -102,6 +106,9 @@ QPushButton:pressed {
          <property name="text">
           <string>Калькулятор</string>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">tabsButtonGroup</string>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -109,6 +116,9 @@ QPushButton:pressed {
          <property name="text">
           <string>Графики</string>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">tabsButtonGroup</string>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -116,6 +126,9 @@ QPushButton:pressed {
          <property name="text">
           <string>Уравнения</string>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">tabsButtonGroup</string>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -123,6 +136,9 @@ QPushButton:pressed {
          <property name="text">
           <string>Библиотека формул</string>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">tabsButtonGroup</string>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -130,6 +146,9 @@ QPushButton:pressed {
          <property name="text">
           <string>Библиотека учебников</string>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">tabsButtonGroup</string>
+         </attribute>
         </widget>
        </item>
       </layout>
@@ -141,6 +160,12 @@ QPushButton:pressed {
        <size>
         <width>490</width>
         <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>500</width>
+        <height>16777215</height>
        </size>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -166,16 +191,16 @@ QPushButton:pressed {
          </property>
          <property name="styleSheet">
           <string notr="true">QLabel {
-	paddibg: 5px 5px 5px 5px;
+	padding: 5px 5px 5px 5px;
 	color: white;
 	border: solid;
-	border-color: rgb(45, 45, 45);
+	border-color: #CCCCCC;
 	border-width: 2px;
 	border-radius: 16px;
 }</string>
          </property>
          <property name="text">
-          <string>Универсальный помощник в учёбе</string>
+          <string>Universal Helper</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -216,9 +241,15 @@ QPushButton:pressed {
       </layout>
      </widget>
     </item>
+    <item>
+     <layout class="QHBoxLayout" name="widgetsLayout"/>
+    </item>
    </layout>
   </widget>
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="tabsButtonGroup"/>
+ </buttongroups>
 </ui>
