@@ -12,13 +12,13 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(664, 592)
+        MainWindow.resize(672, 592)
         font = QtGui.QFont()
         font.setFamily("Open Sans")
         MainWindow.setFont(font)
         MainWindow.setStyleSheet("QMainWindow {\n"
 "    background-color: rgb(18, 18, 18);\n"
-"    background-image: url(\'img/background.png\');\n"
+"    background-image: url(\'./img/background.png\');\n"
 "}\n"
 "\n"
 "QWidget {\n"
