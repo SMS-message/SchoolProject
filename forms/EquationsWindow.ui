@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>626</width>
+    <width>630</width>
     <height>481</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>630</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>630</width>
+    <height>16777215</height>
+   </size>
   </property>
   <property name="font">
    <font>
@@ -21,19 +33,19 @@
   <property name="styleSheet">
    <string notr="true">QWidget {
 	color: white;
-	background-color: rgb(18, 18, 18);
+	background-color: #121212;
+	
 }
 
 QPushButton {
 	color: white;
-	background: rgb(65, 65, 65);
-	
+
 	width: 300px;
 	height: 20px;
 	
 	border: solid;
-	border-color: black;
-	border-width: 0px;
+	border-color: #353535;
+	border-width: 1px;
 	border-radius: 8px;
 }
 
@@ -55,58 +67,6 @@ QPushButton:pressed {
 </string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
-   <item row="1" column="1">
-    <widget class="QPushButton" name="runBtn">
-     <property name="styleSheet">
-      <string notr="true">QPushButton {
-	color: white;
-	background: rgb(65, 65, 65);
-	
-	width: 300px;
-	height: 20px;
-	
-	border: solid;
-	border-color: black;
-	border-width: 0px;
-	border-radius: 8px;
-}
-
-QPushButton:hover {
-	border-color: rgb(170, 170, 170);
-	border-width: 2px;
-
-	width: 300px;
-	height: 30px;
-}
-
-QPushButton:pressed {
-	border-color: white;
-	border-width: 2px;
-	
-	width: 300px;
-	height: 30px;
-}
-</string>
-     </property>
-     <property name="text">
-      <string>Вычислить</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QPushButton" name="returnBtn">
-     <property name="text">
-      <string>Вернуться</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QLabel" name="ErrLabel">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0">
     <spacer name="horizontalSpacer">
      <property name="orientation">
@@ -120,51 +80,57 @@ QPushButton:pressed {
      </property>
     </spacer>
    </item>
+   <item row="2" column="1">
+    <widget class="QPushButton" name="returnBtn">
+     <property name="text">
+      <string>Вернуться</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QPushButton" name="runBtn">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>Вычислить</string>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0" colspan="2">
     <widget class="QTabWidget" name="EquationTabs">
      <property name="styleSheet">
-      <string notr="true">QWidget {
-	background-color: rgb(30, 30, 30);
-}
-
-QLabel {
-	border: dashed;
-	border-width: 2px;
-}
-
-QLineEdit {
+      <string notr="true">QLineEdit {
+	padding: 2px; 
 	background-color: rgb(20, 20, 20);
 	border: solid;
-	border-color: gray;
-	border-width: 2px;
+	border-color: #353535;
+	border-width: 1px;
 	border-radius: 10px;
 }
 
 QTabWidget::pane {
     border: none;
-	border-top: 1px solid rgb(46, 55, 50)
+	border-top: 1px solid #353535;
 }
 
 QTabBar::tab {
-	background-color: rgb(45, 45, 45);
-	
+	padding: 1px 1px 1px 1px;
+	font-family: open sans;	
+
 	height: 20px;
-
 	border: solid;
-
-	border-radius: 2px;
 
 }
 
 QTabBar::tab:selected, QTabBar::tab:hover {
 	border-width: 1px;
-	border-color: rgb(170, 170, 170);
-    background: rgb(75, 75, 75);
+	border-color: #454545;
 }
 
 QTabBar::tab:selected {
 	border-width: 1px;
-    border-color: white;
+    border-color: #454545;
 }
 
    </string>
@@ -190,6 +156,14 @@ QTabBar::tab:selected {
          <family>Open Sans</family>
          <pointsize>12</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+	border: dashed;
+	border-width: 2px;
+	border-color: #CCCCCC;
+	border-radius: 5px;
+}</string>
        </property>
        <property name="text">
         <string>Уравнение вида y = kx + b</string>
@@ -368,6 +342,14 @@ QTabBar::tab:selected {
          <pointsize>12</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+	border: dashed;
+	border-width: 2px;
+	border-color: #CCCCCC;
+	border-radius: 5px;
+}</string>
+       </property>
        <property name="text">
         <string>Уравнение вида y = ax² + bx + c</string>
        </property>
@@ -382,11 +364,11 @@ QTabBar::tab:selected {
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="3" column="2">
-         <widget class="QLineEdit" name="dEdit"/>
+        <item row="1" column="6">
+         <widget class="QLineEdit" name="cEdit"/>
         </item>
-        <item row="0" column="3">
-         <widget class="QLabel" name="label_15">
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_12">
           <property name="font">
            <font>
             <family>Open Sans</family>
@@ -394,23 +376,7 @@ QTabBar::tab:selected {
            </font>
           </property>
           <property name="text">
-           <string>+</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="label_9">
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>20</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>=</string>
+           <string>ax²</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignBottom|Qt::AlignHCenter</set>
@@ -433,62 +399,8 @@ QTabBar::tab:selected {
           </property>
          </widget>
         </item>
-        <item row="4" column="6">
-         <widget class="QLineEdit" name="x2Edit"/>
-        </item>
-        <item row="1" column="6">
-         <widget class="QLineEdit" name="cEdit"/>
-        </item>
-        <item row="4" column="5">
-         <widget class="QLabel" name="label_21">
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>20</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>=</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_16">
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>20</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>D</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_18">
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>20</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>x1</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="5">
-         <widget class="QLabel" name="label_14">
+        <item row="0" column="3">
+         <widget class="QLabel" name="label_15">
           <property name="font">
            <font>
             <family>Open Sans</family>
@@ -503,24 +415,22 @@ QTabBar::tab:selected {
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
-         <widget class="QLabel" name="label_20">
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>20</pointsize>
-           </font>
-          </property>
+        <item row="1" column="2">
+         <widget class="QLineEdit" name="aEdit">
           <property name="text">
-           <string>=</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+           <string>1</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="2">
-         <widget class="QLineEdit" name="x1Edit"/>
+        <item row="1" column="4">
+         <widget class="QLineEdit" name="bEdit_2"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLineEdit" name="yEdit_2">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
         </item>
         <item row="0" column="6">
          <widget class="QLabel" name="label_11">
@@ -554,8 +464,8 @@ QTabBar::tab:selected {
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
-         <widget class="QLabel" name="label_17">
+        <item row="0" column="5">
+         <widget class="QLabel" name="label_14">
           <property name="font">
            <font>
             <family>Open Sans</family>
@@ -563,59 +473,10 @@ QTabBar::tab:selected {
            </font>
           </property>
           <property name="text">
-           <string>=</string>
+           <string>+</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="label_12">
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>20</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>ax²</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="4">
-         <widget class="QLabel" name="label_19">
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>20</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>x2</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="4">
-         <widget class="QLineEdit" name="bEdit_2"/>
-        </item>
-        <item row="1" column="2">
-         <widget class="QLineEdit" name="aEdit">
-          <property name="text">
-           <string>1</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLineEdit" name="yEdit_2">
-          <property name="text">
-           <string>0</string>
           </property>
          </widget>
         </item>
@@ -632,7 +493,141 @@ QTabBar::tab:selected {
           </property>
          </spacer>
         </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="label_9">
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>=</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="6">
+         <widget class="QLineEdit" name="dEdit"/>
+        </item>
+        <item row="4" column="6">
+         <widget class="QLineEdit" name="x1Edit"/>
+        </item>
+        <item row="5" column="6">
+         <widget class="QLineEdit" name="x2Edit"/>
+        </item>
+        <item row="5" column="5">
+         <widget class="QLabel" name="label_21">
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>=</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="5">
+         <widget class="QLabel" name="label_20">
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>=</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="5">
+         <widget class="QLabel" name="label_17">
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>=</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="4">
+         <widget class="QLabel" name="label_16">
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>D</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="4">
+         <widget class="QLabel" name="label_18">
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>x1</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="4">
+         <widget class="QLabel" name="label_19">
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>x2</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+          </property>
+         </widget>
+        </item>
        </layout>
+      </widget>
+      <widget class="QLabel" name="ErrLabel">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>360</y>
+         <width>612</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
       </widget>
      </widget>
     </widget>
