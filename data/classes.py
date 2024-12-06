@@ -1,8 +1,8 @@
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QMainWindow, QWidget
 from PyQt6.QtCore import Qt
-from math import sqrt, log, pi
-
+from itertools import chain
+from math import sqrt, log, pi, factorial as fact
 
 from data.functions import *
 
@@ -92,43 +92,49 @@ class CalcWindow(QWidget, Ui_CalcWidget):
         super().__init__()
         self.setupUi(self)
 
-        for button in self.buttonGroup.buttons():
+        for button in chain(self.buttonGroup.buttons(),  # функции для кнопок с цифрами
+                            self.progButtonGroup.buttons(),
+                            self.engiButtonGroup.buttons()):
             button.clicked.connect(self.add_text)
 
-        for button in self.operationsButtonGroup.buttons():
+        for button in chain(self.operationsButtonGroup.buttons(), # функции для кнопок со знаками
+                            self.progOperationsButtonGroup.buttons(),
+                            self.engiOperationsButtonGroup.buttons()):
             button.clicked.connect(self.add_oper)
 
-        self.clearBtn.clicked.connect(self.clear)
-        self.backspaceBtn.clicked.connect(self.backspace)
-        self.eqBtn.clicked.connect(self.run)
+        for button in self.eqButtonGroup.buttons(): # функции для кнопок =
+            button.clicked.connect(self.run)
 
-        self.xPow2Btn.clicked.connect(self.pow_2)
-        self.xPowYBtn.clicked.connect(self.pow_y)
-        self.tenPowYBtn.clicked.connect(self.pow_10)
+        for button in self.clearButtonGroup.buttons():  # функции для кнопок clear
+            button.clicked.connect(self.clear)
+
+        for button in self.backspaceButtonGroup.buttons():  # функции для кнопок backspace
+            button.clicked.connect(self.backspace)
+
+        for button in self.negButtonGroup.buttons():  # функции для кнопок +/-
+            button.clicked.connect(self.negative)
+
+        for button in self.powButtonGroup.buttons():  # функции для кнопок pow
+            button.clicked.connect(self.pow)
+
         self.sqrtBtn.clicked.connect(self.sqrt)
-        self.logBtn.clicked.connect(self.log)
-        self.absBtn.clicked.connect(self.abs)
-        self.negBtn.clicked.connect(self.negative)
-
-        for button in self.progButtonGroup.buttons():
-            button.clicked.connect(self.add_text_prog)
-
-        for button in self.progOperationsButtonGroup.buttons():
-            button.clicked.connect(self.add_oper_prog)
-
-        self.progEqBtn.clicked.connect(self.run_prog)
-        self.progClearBtn.clicked.connect(self.clear_prog)
-        self.progBackspaceBtn.clicked.connect(self.backspace_prog)
-        self.progNegBtn.clicked.connect(self.negative_prog)
+        self.engiSqrtBtn.clicked.connect(self.sqrt)
 
         self.progLineEdit.textChanged.connect(self.reload_numbers)
         self.comboBox.currentIndexChanged.connect(self.reload_calc)
 
-        for button in self.engiButtonGroup.buttons():
-            button.clicked.connect()  # TODO: функционал; by: gerod; date: 06.12.2024
+        self.piBtn.clicked.connect(self.pi)
+        self.factBtn.clicked.connect(self.fact)
 
-        for button in self.engiOperationsButtonGroup.buttons():
-            button.clicked.connect()
+        self.sinBtn.clicked.connect(self.sin)
+        self.cosBtn.clicked.connect(self.cos)
+        self.tgBtn.clicked.connect(self.tg)
+        self.ctgBtn.clicked.connect(self.ctg)
+        self.arcSinBtn.clicked.connect(self.arcsin)
+        self.arcCosBtn.clicked.connect(self.arccos)
+        self.arcTgBtn.clicked.connect(self.arctg)
+        self.arcCtgBtn.clicked.connect(self.arcctg)
+
 
     def keyPressEvent(self, event):
         try:
@@ -171,121 +177,228 @@ class CalcWindow(QWidget, Ui_CalcWidget):
         except Exception as err:
             show_err(self, err)
 
-    def negative(self):
-        self.defaultLineEdit.setText(f'-{self.defaultLineEdit.text()}')
+    def pi(self):
+        self.engiLineEdit.setText(f"{self.engiLineEdit.text()}pi")
 
-    def negative_prog(self):
-        self.progLineEdit.setText(f'-{self.progLineEdit.text()}')
+    def sin(self):
+        self.engiLineEdit.setText(f"sin({self.engiLineEdit.text()})")
 
-    def pow_2(self):
-        self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} ** 2 ')
+    def cos(self):
+        self.engiLineEdit.setText(f"cos({self.engiLineEdit.text()})")
 
-    def pow_y(self):
-        self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} ** ')
+    def tg(self):
+        self.engiLineEdit.setText(f"tg({self.engiLineEdit.text()})")
 
-    def pow_10(self):
-        self.defaultLineEdit.setText(
-            f'{self.defaultLineEdit.text()} * 10 ** ' if self.defaultLineEdit.text() else '(10 ** ')
+    def ctg(self):
+        self.engiLineEdit.setText(f"ctg({self.engiLineEdit.text()})")
 
-    def sqrt(self):
-        self.defaultLineEdit.setText(f'sqrt({self.defaultLineEdit.text()}) ')
+    def arcsin(self):
+        self.engiLineEdit.setText(f"arcsin({self.engiLineEdit.text()})")
 
-    def log(self):
-        self.defaultLineEdit.setText(f'log({self.defaultLineEdit.text()}, ')
+    def arccos(self):
+        self.engiLineEdit.setText(f"arccos({self.engiLineEdit.text()})")
 
-    def abs(self):
-        self.defaultLineEdit.setText(f'abs({self.defaultLineEdit.text()}) ')
+    def arctg(self):
+        self.engiLineEdit.setText(f"arctg({self.engiLineEdit.text()})")
 
-    def clear(self):
-        self.defaultLineEdit.setText('')
+    def arcctg(self):
+        self.engiLineEdit.setText(f"arcctg({self.engiLineEdit.text()})")
 
-    def clear_prog(self):
-        self.progLineEdit.setText('')
+    def fact(self):
+        self.engiLineEdit.setText(f"fact({self.engiLineEdit.text()})")
 
-    def backspace(self):
-        self.defaultLineEdit.setText(self.defaultLineEdit.text()[:-1])
-
-    def backspace_prog(self):
-        self.progLineEdit.setText(f'{self.progLineEdit.text()[:-1]}')
-
-    def add_oper(self):
-        self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} {self.sender().text()} ')
-
-    def add_oper_prog(self):
-        self.progLineEdit.setText(f'{self.progLineEdit.text()} {self.sender().text()} ')
-
-    def add_text(self):
+    def pow(self):
         try:
-            if self.defaultLineEdit.text() and self.defaultLineEdit.text()[
-                -1].isdigit() and not ',' in self.defaultLineEdit.text():
-                self.defaultLineEdit.setText(
-                    f'{self.defaultLineEdit.text()}{self.sender().text()}'.replace(',', '.', 1))
-            else:
-                self.defaultLineEdit.setText(
-                    f'{self.defaultLineEdit.text()}{self.sender().text()}')
+            calc = self.sender().parent().objectName()
+            match calc:
+                case 'Calc':
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} ** ' +
+                                                 '2' if '2' in self.sender().objectName() else '')
+                case 'EngiCalc':
+                    self.engiLineEdit.setText(f'{self.engiLineEdit.text()} ** ' +
+                                              '2' if '2' in self.sender().objectName() else '')
         except Exception as err:
             show_err(self, err)
 
-    def add_text_prog(self):
+    def pow_10(self):
         try:
-            self.progLineEdit.setText(f'{self.progLineEdit.text()}{self.sender().text()}')
+            calc = self.sender().parent().objectName()
+            match calc:
+                case 'Calc':
+                    self.defaultLineEdit.setText(
+                        f'{self.defaultLineEdit.text()} * 10 ** ' if self.defaultLineEdit.text() else '(10 ** ')
+                case 'EngiCalc':
+                    self.engiLineEdit.setText(
+                        f'{self.engiLineEdit.text()} * 10 ** ' if self.engiLineEdit.text() else '(10 ** ')
+        except Exception as err:
+            show_err(self, err)
+
+    def sqrt(self):
+        try:
+            calc = self.sender().parent().objectName()
+            match calc:
+                case 'Calc':
+                    self.defaultLineEdit.setText(f'sqrt({self.defaultLineEdit.text()})')
+                case 'EngiCalc':
+                    self.engiLineEdit.setText(f'sqrt({self.engiLineEdit.text()})')
+        except Exception as err:
+            show_err(self, err)
+
+    def log(self):
+        try:
+            calc = self.sender().parent().objectName()
+            match calc:
+                case 'Calc':
+                    self.defaultLineEdit.setText(f'log({self.defaultLineEdit.text()}, ')
+                case 'EngiCalc':
+                    self.engiLineEdit.setText(f'log({self.engiLineEdit.text()}, ')
+        except Exception as err:
+            show_err(self, err)
+
+    def abs(self):
+        try:
+            calc = self.sender().parent().objectName()
+            match calc:
+                case 'Calc':
+                    self.defaultLineEdit.setText(f'abs({self.defaultLineEdit.text()}) ')
+                case 'EngiCalc':
+                    self.engiLineEdit.setText(f'abs({self.engiLineEdit.text()}) ')
+        except Exception as err:
+            show_err(self, err)
+
+    def clear(self):
+        try:
+            calc = self.sender().parent().objectName()
+            match calc:
+                case 'Calc':
+                    self.defaultLineEdit.setText('')
+                case 'EngiCalc':
+                    self.engiLineEdit.setText('')
+                case 'ProgCalc':
+                    self.progLineEdit.setText('')
+        except Exception as err:
+            show_err(self, err)
+
+    def backspace(self):
+        try:
+            calc = self.sender().parent().objectName()
+            match calc:
+                case 'Calc':
+                    self.defaultLineEdit.setText(self.defaultLineEdit.text()[:-1])
+                case 'EngiCalc':
+                    self.engiLineEdit.setText(f'{self.engiLineEdit.text()[:-1]}')
+                case 'ProgCalc':
+                    self.progLineEdit.setText(f'{self.progLineEdit.text()[:-1]}')
+        except Exception as err:
+            show_err(self, err)
+
+    def negative(self):
+        try:
+            calc = self.sender().parent().objectName()
+            match calc:
+                case 'Calc':
+                    self.defaultLineEdit.setText(f'-{self.defaultLineEdit.text()}')
+                case 'EngiCalc':
+                    self.engiLineEdit.setText(f'-{self.engiLineEdit.text()}')
+                case 'ProgCalc':
+                    self.progLineEdit.setText(f'-{self.progLineEdit.text()}')
+        except Exception as err:
+            show_err(self, err)
+
+    def add_oper(self):
+        try:
+            calc = self.sender().parent().objectName()
+            match calc:
+                case 'Calc':
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} {self.sender().text()} ')
+                case 'EngiCalc':
+                    self.engiLineEdit.setText(f'{self.engiLineEdit.text()} {self.sender().text()} ')
+                case 'ProgCalc':
+                    self.progLineEdit.setText(f'{self.progLineEdit.text()} {self.sender().text()} ')
+        except Exception as err:
+            show_err(self, err)
+
+    def add_text(self):
+        try:
+            calc = self.sender().parent().objectName()
+            match calc:
+                case 'Calc':
+                    if self.defaultLineEdit.text() and self.defaultLineEdit.text()[
+                        -1].isdigit() and not ',' in self.defaultLineEdit.text():
+                        self.defaultLineEdit.setText(
+                            f'{self.defaultLineEdit.text()}{self.sender().text()}'.replace(',', '.', 1))
+                    else:
+                        self.defaultLineEdit.setText(
+                            f'{self.defaultLineEdit.text()}{self.sender().text()}')
+                case 'EngiCalc':
+                    if self.engiLineEdit.text() and self.engiLineEdit.text()[
+                        -1].isdigit() and not ',' in self.engiLineEdit.text():
+                        self.engiLineEdit.setText(
+                            f'{self.engiLineEdit.text()}{self.sender().text()}'.replace(',', '.', 1))
+                    else:
+                        self.engiLineEdit.setText(
+                            f'{self.engiLineEdit.text()}{self.sender().text()}')
+                case 'ProgCalc':
+                    self.progLineEdit.setText(f'{self.progLineEdit.text()}{self.sender().text()}')
+
         except Exception as err:
             show_err(self, err)
 
     def run(self):
         try:
-            self.defaultLineEdit.setText(str(eval(self.defaultLineEdit.text())))
-        except SyntaxError as err:
-            show_err(self, err, text='Синтаксическая ошибка! Введите данные корректно')
-        except Exception as err:
-            show_err(self, err)
+            calc = self.sender().parent().objectName()
+            match calc:
+                case 'Calc':
+                    self.defaultLineEdit.setText(str(eval(self.defaultLineEdit.text())))
+                case 'EngiCalc':
+                    self.engiLineEdit.setText(str(eval(self.engiLineEdit.text())))
+                case 'ProgCalc':
+                    string = self.progLineEdit.text()
+                    filtered_ints = tuple(
+                        filter(lambda x: x.strip('(').isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(x),
+                               string.split()))
+                    match self.comboBox.currentText():
+                        case 'HEX':
+                            mapped_ints = tuple(map(lambda x: str(int(x, 16)), filtered_ints))
+                            res = []
+                            k = 0
+                            for elem in string.split():
+                                if elem.isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(elem):
+                                    res.append(mapped_ints[k])
+                                    k += 1
+                                else:
+                                    res.append(elem)
+                            res = ' '.join(res)
+                            self.progLineEdit.setText(f'{eval(res):x}'.upper())
+                        case 'DEC':
+                            res = self.progLineEdit.text()
+                            self.progLineEdit.setText(f'{eval(res)}')
+                        case 'OCT':
+                            mapped_ints = tuple(map(lambda x: int(x, 8), filtered_ints))
+                            res = []
+                            k = 0
+                            for elem in string.split():
+                                if elem.isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(elem):
+                                    res.append(mapped_ints[k])
+                                    k += 1
+                                else:
+                                    res.append(elem)
+                            res = ' '.join(res)
+                            self.progLineEdit.setText(f'{eval(res):o}')
+                        case 'BIN':
+                            mapped_ints = tuple(map(lambda x: int(x, 10), filtered_ints))
+                            res = []
+                            k = 0
+                            for elem in string.split():
+                                if elem.isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(elem):
+                                    res.append(mapped_ints[k])
+                                    k += 1
+                                else:
+                                    res.append(elem)
+                            res = ' '.join(res)
+                            self.progLineEdit.setText(f'{eval(res):b}')
+                    self.reload_numbers()
 
-    def run_prog(self):
-        try:
-            string = self.progLineEdit.text()
-            filtered_ints = tuple(
-                filter(lambda x: x.strip('(').isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(x), string.split()))
-            match self.comboBox.currentText():
-                case 'HEX':
-                    mapped_ints = tuple(map(lambda x: str(int(x, 16)), filtered_ints))
-                    res = []
-                    k = 0
-                    for elem in string.split():
-                        if elem.isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(elem):
-                            res.append(mapped_ints[k])
-                            k += 1
-                        else:
-                            res.append(elem)
-                    res = ' '.join(res)
-                    self.progLineEdit.setText(f'{eval(res):x}'.upper())
-                case 'DEC':
-                    res = self.progLineEdit.text()
-                    self.progLineEdit.setText(f'{eval(res)}')
-                case 'OCT':
-                    mapped_ints = tuple(map(lambda x: int(x, 8), filtered_ints))
-                    res = []
-                    k = 0
-                    for elem in string.split():
-                        if elem.isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(elem):
-                            res.append(mapped_ints[k])
-                            k += 1
-                        else:
-                            res.append(elem)
-                    res = ' '.join(res)
-                    self.progLineEdit.setText(f'{eval(res):o}')
-                case 'BIN':
-                    mapped_ints = tuple(map(lambda x: int(x, 10), filtered_ints))
-                    res = []
-                    k = 0
-                    for elem in string.split():
-                        if elem.isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(elem):
-                            res.append(mapped_ints[k])
-                            k += 1
-                        else:
-                            res.append(elem)
-                    res = ' '.join(res)
-                    self.progLineEdit.setText(f'{eval(res):b}')
-            self.reload_numbers()
         except SyntaxError as err:
             show_err(self, err, text='Синтаксическая ошибка! Введите данные корректно')
         except Exception as err:
