@@ -1,7 +1,8 @@
 from PyQt6.QtGui import QIcon, QPixmap, QPainter
 from PyQt6.QtWidgets import QMainWindow, QWidget
 from PyQt6.QtCore import Qt, QRect
-from math import sqrt, log
+from math import sqrt, log, pi
+
 
 from data.functions import *
 
