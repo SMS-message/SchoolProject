@@ -1,6 +1,5 @@
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QMainWindow, QWidget
-from PyQt6.QtCore import Qt
 from itertools import chain
 from math import sqrt, log, pi, factorial as fact
 
@@ -134,48 +133,6 @@ class CalcWindow(QWidget, Ui_CalcWidget):
         self.arcCosBtn.clicked.connect(self.arccos)
         self.arcTgBtn.clicked.connect(self.arctg)
         self.arcCtgBtn.clicked.connect(self.arcctg)
-
-
-    def keyPressEvent(self, event):
-        try:
-            match event.key():
-                case Qt.Key.Key_Return:
-                    self.run()
-                case Qt.Key.Key_1:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}1')
-                case Qt.Key.Key_2:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}2')
-                case Qt.Key.Key_3:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}3')
-                case Qt.Key.Key_4:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}4')
-                case Qt.Key.Key_5:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}5')
-                case Qt.Key.Key_6:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}6')
-                case Qt.Key.Key_7:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}7')
-                case Qt.Key.Key_8:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}8')
-                case Qt.Key.Key_9:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}9')
-                case Qt.Key.Key_0:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}0')
-                case Qt.Key.Key_Plus:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} + ')
-                case Qt.Key.Key_Minus:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} - ')
-                case Qt.Key.Key_division:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} / ')
-                case Qt.Key.Key_multiply:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} * ')
-                case Qt.Key.Key_AsciiCircum:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} ** ')
-                case Qt.Key.Key_Backspace:
-                    self.backspace()
-
-        except Exception as err:
-            show_err(self, err)
 
     def pi(self):
         self.engiLineEdit.setText(f"{self.engiLineEdit.text()}pi")
