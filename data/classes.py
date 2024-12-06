@@ -124,6 +124,12 @@ class CalcWindow(QWidget, Ui_CalcWidget):
         self.progLineEdit.textChanged.connect(self.reload_numbers)
         self.comboBox.currentIndexChanged.connect(self.reload_calc)
 
+        for button in self.engiButtonGroup.buttons():
+            button.clicked.connect()  # TODO: функционал; by: gerod; date: 06.12.2024
+
+        for button in self.engiOperationsButtonGroup.buttons():
+            button.clicked.connect()
+
     def keyPressEvent(self, event):
         try:
             match event.key():
