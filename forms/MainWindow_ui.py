@@ -21,6 +21,41 @@ class Ui_MainWindow(object):
 "    background-image: url(\'./img/background.png\');\n"
 "}\n"
 "\n"
+"QMenuBar {\n"
+"    background-color: qlineargradient(spread:pad, x1:0.472, y1:1, x2:0.482955, y2:0, stop:0 rgba(18, 18, 18, 123), stop:0.795455 rgba(35, 35, 35, 255));\n"
+"    spacing: 3px;\n"
+"}\n"
+"\n"
+"QMenuBar::item {\n"
+"    color: #FFFFFF;\n"
+"    padding: 1px 4px;\n"
+"    background: transparent;\n"
+"    border-radius: 4px;\n"
+"}\n"
+"\n"
+"QMenuBar::item:selected {\n"
+"    background: #a8a8a8;\n"
+"}\n"
+"\n"
+"QMenuBar::item:pressed {\n"
+"    background: #888888;\n"
+"}\n"
+"\n"
+"QMenu::separator {\n"
+"    height: 2px;\n"
+"    background: #353535;\n"
+"}\n"
+"\n"
+"QMenu {\n"
+"    color: #FFFFFF;\n"
+"    background-color: #121212;\n"
+"}\n"
+"\n"
+"QMenu::item:selected {\n"
+"    color: #FFFFFF;\n"
+"    background-color: #303030;\n"
+"}\n"
+"\n"
 "QWidget {\n"
 "    border-radius: 10px;\n"
 "}")
@@ -135,6 +170,26 @@ class Ui_MainWindow(object):
         self.widgetsLayout.setObjectName("widgetsLayout")
         self.horizontalLayout.addLayout(self.widgetsLayout)
         MainWindow.setCentralWidget(self.centralwidget)
+        self.menuBar = QtWidgets.QMenuBar(parent=MainWindow)
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 672, 19))
+        self.menuBar.setObjectName("menuBar")
+        self.menu = QtWidgets.QMenu(parent=self.menuBar)
+        self.menu.setObjectName("menu")
+        self.menu_2 = QtWidgets.QMenu(parent=self.menuBar)
+        self.menu_2.setObjectName("menu_2")
+        MainWindow.setMenuBar(self.menuBar)
+        self.closeWinsAction = QtGui.QAction(parent=MainWindow)
+        self.closeWinsAction.setObjectName("closeWinsAction")
+        self.exitAction = QtGui.QAction(parent=MainWindow)
+        self.exitAction.setObjectName("exitAction")
+        self.authorsAction = QtGui.QAction(parent=MainWindow)
+        self.authorsAction.setObjectName("authorsAction")
+        self.menu.addAction(self.closeWinsAction)
+        self.menu.addSeparator()
+        self.menu.addAction(self.exitAction)
+        self.menu_2.addAction(self.authorsAction)
+        self.menuBar.addAction(self.menu.menuAction())
+        self.menuBar.addAction(self.menu_2.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -149,3 +204,8 @@ class Ui_MainWindow(object):
         self.bookLibButton.setText(_translate("MainWindow", "Библиотека учебников"))
         self.mainLabel.setText(_translate("MainWindow", "Universal Helper"))
         self.label.setText(_translate("MainWindow", "Выберите вкладку слева"))
+        self.menu.setTitle(_translate("MainWindow", "Файл"))
+        self.menu_2.setTitle(_translate("MainWindow", "Справка"))
+        self.closeWinsAction.setText(_translate("MainWindow", "Закрыть все окна"))
+        self.exitAction.setText(_translate("MainWindow", "Выход"))
+        self.authorsAction.setText(_translate("MainWindow", "Авторы"))

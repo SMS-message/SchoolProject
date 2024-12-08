@@ -24,6 +24,41 @@
 	background-image: url('./img/background.png');
 }
 
+QMenuBar {
+    background-color: qlineargradient(spread:pad, x1:0.472, y1:1, x2:0.482955, y2:0, stop:0 rgba(18, 18, 18, 123), stop:0.795455 rgba(35, 35, 35, 255));
+    spacing: 3px;
+}
+
+QMenuBar::item {
+	color: #FFFFFF;
+    padding: 1px 4px;
+    background: transparent;
+    border-radius: 4px;
+}
+
+QMenuBar::item:selected {
+    background: #a8a8a8;
+}
+
+QMenuBar::item:pressed {
+    background: #888888;
+}
+
+QMenu::separator {
+    height: 2px;
+    background: #353535;
+}
+
+QMenu {
+	color: #FFFFFF;
+	background-color: #121212;
+}
+
+QMenu::item:selected {
+	color: #FFFFFF;
+	background-color: #303030;
+}
+
 QWidget {
 	border-radius: 10px;
 }</string>
@@ -246,6 +281,47 @@ QPushButton:pressed {
     </item>
    </layout>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>672</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Файл</string>
+    </property>
+    <addaction name="closeWinsAction"/>
+    <addaction name="separator"/>
+    <addaction name="exitAction"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Справка</string>
+    </property>
+    <addaction name="authorsAction"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+  </widget>
+  <action name="closeWinsAction">
+   <property name="text">
+    <string>Закрыть все окна</string>
+   </property>
+  </action>
+  <action name="exitAction">
+   <property name="text">
+    <string>Выход</string>
+   </property>
+  </action>
+  <action name="authorsAction">
+   <property name="text">
+    <string>Авторы</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

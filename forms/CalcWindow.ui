@@ -31,6 +31,16 @@ Line {
 	background:  #CCCCCC;
 }
 
+QLineEdit {
+	font-size: 16px;
+	padding: 2px; 
+	background-color: rgb(20, 20, 20);
+	border: solid;
+	border-color: #353535;
+	border-width: 1px;
+	border-radius: 10px;
+}
+
 QPushButton {
 	color: white;
 
@@ -62,17 +72,7 @@ QPushButton:disabled {
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="styleSheet">
-      <string notr="true">QLineEdit {
-	font-size: 16px;
-	padding: 2px; 
-	background-color: rgb(20, 20, 20);
-	border: solid;
-	border-color: #353535;
-	border-width: 1px;
-	border-radius: 10px;
-}
-
-QTabWidget::pane {
+      <string notr="true">QTabWidget::pane {
     border: none;
 	border-top: 1px solid #353535;
 }
@@ -502,6 +502,9 @@ QPushButton:pressed {
                  <property name="text">
                   <string>cos</string>
                  </property>
+                 <attribute name="buttonGroup">
+                  <string notr="true">trigButtonGroup</string>
+                 </attribute>
                 </widget>
                </item>
                <item row="0" column="0">
@@ -509,6 +512,9 @@ QPushButton:pressed {
                  <property name="text">
                   <string>sin</string>
                  </property>
+                 <attribute name="buttonGroup">
+                  <string notr="true">trigButtonGroup</string>
+                 </attribute>
                 </widget>
                </item>
                <item row="0" column="2">
@@ -516,6 +522,9 @@ QPushButton:pressed {
                  <property name="text">
                   <string>tg</string>
                  </property>
+                 <attribute name="buttonGroup">
+                  <string notr="true">trigButtonGroup</string>
+                 </attribute>
                 </widget>
                </item>
                <item row="0" column="3">
@@ -523,6 +532,9 @@ QPushButton:pressed {
                  <property name="text">
                   <string>ctg</string>
                  </property>
+                 <attribute name="buttonGroup">
+                  <string notr="true">trigButtonGroup</string>
+                 </attribute>
                 </widget>
                </item>
               </layout>
@@ -541,6 +553,9 @@ QPushButton:pressed {
                  <property name="text">
                   <string>arccos</string>
                  </property>
+                 <attribute name="buttonGroup">
+                  <string notr="true">trigButtonGroup</string>
+                 </attribute>
                 </widget>
                </item>
                <item row="0" column="0">
@@ -548,6 +563,9 @@ QPushButton:pressed {
                  <property name="text">
                   <string>arcsin</string>
                  </property>
+                 <attribute name="buttonGroup">
+                  <string notr="true">trigButtonGroup</string>
+                 </attribute>
                 </widget>
                </item>
                <item row="0" column="2">
@@ -555,6 +573,9 @@ QPushButton:pressed {
                  <property name="text">
                   <string>arctg</string>
                  </property>
+                 <attribute name="buttonGroup">
+                  <string notr="true">trigButtonGroup</string>
+                 </attribute>
                 </widget>
                </item>
                <item row="0" column="3">
@@ -562,6 +583,9 @@ QPushButton:pressed {
                  <property name="text">
                   <string>arcctg</string>
                  </property>
+                 <attribute name="buttonGroup">
+                  <string notr="true">trigButtonGroup</string>
+                 </attribute>
                 </widget>
                </item>
               </layout>
@@ -1008,7 +1032,7 @@ QPushButton:pressed {
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="QComboBox" name="comboBox">
+          <widget class="QComboBox" name="progModeBox">
            <item>
             <property name="text">
              <string>HEX</string>
@@ -1423,16 +1447,17 @@ QPushButton:pressed {
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="engiOperationsButtonGroup"/>
-  <buttongroup name="buttonGroup"/>
-  <buttongroup name="progOperationsButtonGroup"/>
-  <buttongroup name="progButtonGroup"/>
-  <buttongroup name="engiButtonGroup"/>
-  <buttongroup name="operationsButtonGroup"/>
-  <buttongroup name="eqButtonGroup"/>
-  <buttongroup name="clearButtonGroup"/>
   <buttongroup name="backspaceButtonGroup"/>
+  <buttongroup name="eqButtonGroup"/>
+  <buttongroup name="engiOperationsButtonGroup"/>
+  <buttongroup name="progOperationsButtonGroup"/>
   <buttongroup name="negButtonGroup"/>
+  <buttongroup name="engiButtonGroup"/>
   <buttongroup name="powButtonGroup"/>
+  <buttongroup name="buttonGroup"/>
+  <buttongroup name="operationsButtonGroup"/>
+  <buttongroup name="progButtonGroup"/>
+  <buttongroup name="clearButtonGroup"/>
+  <buttongroup name="trigButtonGroup"/>
  </buttongroups>
 </ui>

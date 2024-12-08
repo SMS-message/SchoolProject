@@ -25,6 +25,16 @@ class Ui_CalcWidget(object):
 "    background:  #CCCCCC;\n"
 "}\n"
 "\n"
+"QLineEdit {\n"
+"    font-size: 16px;\n"
+"    padding: 2px; \n"
+"    background-color: rgb(20, 20, 20);\n"
+"    border: solid;\n"
+"    border-color: #353535;\n"
+"    border-width: 1px;\n"
+"    border-radius: 10px;\n"
+"}\n"
+"\n"
 "QPushButton {\n"
 "    color: white;\n"
 "\n"
@@ -54,17 +64,7 @@ class Ui_CalcWidget(object):
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(CalcWidget)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.tabWidget = QtWidgets.QTabWidget(parent=CalcWidget)
-        self.tabWidget.setStyleSheet("QLineEdit {\n"
-"    font-size: 16px;\n"
-"    padding: 2px; \n"
-"    background-color: rgb(20, 20, 20);\n"
-"    border: solid;\n"
-"    border-color: #353535;\n"
-"    border-width: 1px;\n"
-"    border-radius: 10px;\n"
-"}\n"
-"\n"
-"QTabWidget::pane {\n"
+        self.tabWidget.setStyleSheet("QTabWidget::pane {\n"
 "    border: none;\n"
 "    border-top: 1px solid #353535;\n"
 "}\n"
@@ -289,15 +289,21 @@ class Ui_CalcWidget(object):
         self.gridLayout.setObjectName("gridLayout")
         self.cosBtn = QtWidgets.QPushButton(parent=self.trig)
         self.cosBtn.setObjectName("cosBtn")
+        self.trigButtonGroup = QtWidgets.QButtonGroup(CalcWidget)
+        self.trigButtonGroup.setObjectName("trigButtonGroup")
+        self.trigButtonGroup.addButton(self.cosBtn)
         self.gridLayout.addWidget(self.cosBtn, 0, 1, 1, 1)
         self.sinBtn = QtWidgets.QPushButton(parent=self.trig)
         self.sinBtn.setObjectName("sinBtn")
+        self.trigButtonGroup.addButton(self.sinBtn)
         self.gridLayout.addWidget(self.sinBtn, 0, 0, 1, 1)
         self.tgBtn = QtWidgets.QPushButton(parent=self.trig)
         self.tgBtn.setObjectName("tgBtn")
+        self.trigButtonGroup.addButton(self.tgBtn)
         self.gridLayout.addWidget(self.tgBtn, 0, 2, 1, 1)
         self.ctgBtn = QtWidgets.QPushButton(parent=self.trig)
         self.ctgBtn.setObjectName("ctgBtn")
+        self.trigButtonGroup.addButton(self.ctgBtn)
         self.gridLayout.addWidget(self.ctgBtn, 0, 3, 1, 1)
         self.verticalLayout_4.addLayout(self.gridLayout)
         self.Trigonometry.addTab(self.trig, "")
@@ -309,15 +315,19 @@ class Ui_CalcWidget(object):
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.arcCosBtn = QtWidgets.QPushButton(parent=self.reverseTrig)
         self.arcCosBtn.setObjectName("arcCosBtn")
+        self.trigButtonGroup.addButton(self.arcCosBtn)
         self.gridLayout_2.addWidget(self.arcCosBtn, 0, 1, 1, 1)
         self.arcSinBtn = QtWidgets.QPushButton(parent=self.reverseTrig)
         self.arcSinBtn.setObjectName("arcSinBtn")
+        self.trigButtonGroup.addButton(self.arcSinBtn)
         self.gridLayout_2.addWidget(self.arcSinBtn, 0, 0, 1, 1)
         self.arcTgBtn = QtWidgets.QPushButton(parent=self.reverseTrig)
         self.arcTgBtn.setObjectName("arcTgBtn")
+        self.trigButtonGroup.addButton(self.arcTgBtn)
         self.gridLayout_2.addWidget(self.arcTgBtn, 0, 2, 1, 1)
         self.arcCtgBtn = QtWidgets.QPushButton(parent=self.reverseTrig)
         self.arcCtgBtn.setObjectName("arcCtgBtn")
+        self.trigButtonGroup.addButton(self.arcCtgBtn)
         self.gridLayout_2.addWidget(self.arcCtgBtn, 0, 3, 1, 1)
         self.verticalLayout_8.addLayout(self.gridLayout_2)
         self.Trigonometry.addTab(self.reverseTrig, "")
@@ -533,13 +543,13 @@ class Ui_CalcWidget(object):
         self.label_3 = QtWidgets.QLabel(parent=self.ProgCalc)
         self.label_3.setObjectName("label_3")
         self.formLayout.setWidget(5, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_3)
-        self.comboBox = QtWidgets.QComboBox(parent=self.ProgCalc)
-        self.comboBox.setObjectName("comboBox")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.formLayout.setWidget(5, QtWidgets.QFormLayout.ItemRole.FieldRole, self.comboBox)
+        self.progModeBox = QtWidgets.QComboBox(parent=self.ProgCalc)
+        self.progModeBox.setObjectName("progModeBox")
+        self.progModeBox.addItem("")
+        self.progModeBox.addItem("")
+        self.progModeBox.addItem("")
+        self.progModeBox.addItem("")
+        self.formLayout.setWidget(5, QtWidgets.QFormLayout.ItemRole.FieldRole, self.progModeBox)
         self.binEdit = QtWidgets.QLineEdit(parent=self.ProgCalc)
         self.binEdit.setStyleSheet("QLineEdit {\n"
 "    font-size: 12px;\n"
@@ -808,10 +818,10 @@ class Ui_CalcWidget(object):
         self.octEdit.setText(_translate("CalcWidget", "0"))
         self.label_6.setText(_translate("CalcWidget", "BIN"))
         self.label_3.setText(_translate("CalcWidget", "Mode:"))
-        self.comboBox.setItemText(0, _translate("CalcWidget", "HEX"))
-        self.comboBox.setItemText(1, _translate("CalcWidget", "DEC"))
-        self.comboBox.setItemText(2, _translate("CalcWidget", "OCT"))
-        self.comboBox.setItemText(3, _translate("CalcWidget", "BIN"))
+        self.progModeBox.setItemText(0, _translate("CalcWidget", "HEX"))
+        self.progModeBox.setItemText(1, _translate("CalcWidget", "DEC"))
+        self.progModeBox.setItemText(2, _translate("CalcWidget", "OCT"))
+        self.progModeBox.setItemText(3, _translate("CalcWidget", "BIN"))
         self.binEdit.setText(_translate("CalcWidget", "0"))
         self.progBBtn.setText(_translate("CalcWidget", "B"))
         self.progOneBtn.setText(_translate("CalcWidget", "1"))

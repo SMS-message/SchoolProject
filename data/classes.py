@@ -1,14 +1,14 @@
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QMainWindow, QWidget
-from PyQt6.QtCore import Qt
 from itertools import chain
-from math import sqrt, log, pi, factorial as fact
+from math import sqrt, log, factorial as fact
 
 from data.functions import *
 
 from forms.MainWindow_ui import *
 from forms.EquationsWindow_ui import *
 from forms.CalcWindow_ui import *
+from forms.BookLibraryWindow_ui import *
 
 
 class UniversalHelper(QMainWindow, Ui_MainWindow):
@@ -23,6 +23,10 @@ class UniversalHelper(QMainWindow, Ui_MainWindow):
 
         self.eqBtn.clicked.connect(self.add_widget)
         self.calcBtn.clicked.connect(self.add_widget)
+        self.bookLibButton.clicked.connect(self.add_widget)
+
+        self.closeWinsAction.triggered.connect(self.close_widgets)
+        self.exitAction.triggered.connect(self.close)
 
     def add_widget(self):
         self.textFrame.hide()
@@ -32,6 +36,8 @@ class UniversalHelper(QMainWindow, Ui_MainWindow):
                     self.win = EquationWindow(self)
                 case 'calcBtn':
                     self.win = CalcWindow(self)
+                case 'bookLibButton':
+                    self.win = BookLibraryWindow(self)
             self.wins.append(self.win)
             self.widgetsLayout.addWidget(self.win)
 
@@ -39,17 +45,22 @@ class UniversalHelper(QMainWindow, Ui_MainWindow):
         except Exception as err:
             show_err(self, err)
 
+    def close_widgets(self):
+        while self.wins:
+            self.wins.pop().close()
+        self.textFrame.show()
+        self.resize(672, 592)
+
     def return_text(self):
         try:
             widget = self.sender().parent()
             widget.close()
             self.wins = self.wins[:self.wins.index(widget)] + self.wins[self.wins.index(widget) + 1:]
-            self.resize(self.width() - widget.width(), 600)
+            self.resize(self.width() - widget.width(), self.height())
             if not self.wins:
                 self.textFrame.show()
         except Exception as err:
             show_err(self, err)
-
 
 class EquationWindow(QWidget, Ui_Equation):
     def __init__(self, *args):
@@ -117,92 +128,37 @@ class CalcWindow(QWidget, Ui_CalcWidget):
         for button in self.powButtonGroup.buttons():  # функции для кнопок pow
             button.clicked.connect(self.pow)
 
+        for button in self.trigButtonGroup.buttons():  # функции для кнопок с тригонометрическими функциями
+            button.clicked.connect(self.trigonometry_func)
+
         self.sqrtBtn.clicked.connect(self.sqrt)
         self.engiSqrtBtn.clicked.connect(self.sqrt)
 
-        self.progLineEdit.textChanged.connect(self.reload_numbers)
-        self.comboBox.currentIndexChanged.connect(self.reload_calc)
+        self.logBtn.clicked.connect(self.log)
+        self.engiLogBtn.clicked.connect(self.log)
+
+        self.tenPowYBtn.clicked.connect(self.pow_10)
+        self.engiTenPowYBtn.clicked.connect(self.pow_10)
 
         self.piBtn.clicked.connect(self.pi)
         self.factBtn.clicked.connect(self.fact)
 
-        self.sinBtn.clicked.connect(self.sin)
-        self.cosBtn.clicked.connect(self.cos)
-        self.tgBtn.clicked.connect(self.tg)
-        self.ctgBtn.clicked.connect(self.ctg)
-        self.arcSinBtn.clicked.connect(self.arcsin)
-        self.arcCosBtn.clicked.connect(self.arccos)
-        self.arcTgBtn.clicked.connect(self.arctg)
-        self.arcCtgBtn.clicked.connect(self.arcctg)
 
+        self.progLineEdit.textChanged.connect(self.reload_numbers)
+        self.progModeBox.currentIndexChanged.connect(self.reload_calc)
 
-    def keyPressEvent(self, event):
+    def trigonometry_func(self):
         try:
-            match event.key():
-                case Qt.Key.Key_Return:
-                    self.run()
-                case Qt.Key.Key_1:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}1')
-                case Qt.Key.Key_2:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}2')
-                case Qt.Key.Key_3:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}3')
-                case Qt.Key.Key_4:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}4')
-                case Qt.Key.Key_5:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}5')
-                case Qt.Key.Key_6:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}6')
-                case Qt.Key.Key_7:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}7')
-                case Qt.Key.Key_8:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}8')
-                case Qt.Key.Key_9:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}9')
-                case Qt.Key.Key_0:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()}0')
-                case Qt.Key.Key_Plus:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} + ')
-                case Qt.Key.Key_Minus:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} - ')
-                case Qt.Key.Key_division:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} / ')
-                case Qt.Key.Key_multiply:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} * ')
-                case Qt.Key.Key_AsciiCircum:
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} ** ')
-                case Qt.Key.Key_Backspace:
-                    self.backspace()
-
+            text = self.engiLineEdit.text()
+            dct = {'sin': f"sin({text})", 'cos': f"cos({text})", 'tg': f"tg({text})", 'ctg': f"ctg({text})",
+                   'arcsin': f"arcsin({text})", 'arccos': f"arccos({text})",
+                   'arctg': f"arctg({text})", 'arcctg': f"arcctg({text})"}
+            self.engiLineEdit.setText(dct[self.sender().text()])
         except Exception as err:
             show_err(self, err)
 
     def pi(self):
         self.engiLineEdit.setText(f"{self.engiLineEdit.text()}pi")
-
-    def sin(self):
-        self.engiLineEdit.setText(f"sin({self.engiLineEdit.text()})")
-
-    def cos(self):
-        self.engiLineEdit.setText(f"cos({self.engiLineEdit.text()})")
-
-    def tg(self):
-        self.engiLineEdit.setText(f"tg({self.engiLineEdit.text()})")
-
-    def ctg(self):
-        self.engiLineEdit.setText(f"ctg({self.engiLineEdit.text()})")
-
-    def arcsin(self):
-        self.engiLineEdit.setText(f"arcsin({self.engiLineEdit.text()})")
-
-    def arccos(self):
-        self.engiLineEdit.setText(f"arccos({self.engiLineEdit.text()})")
-
-    def arctg(self):
-        self.engiLineEdit.setText(f"arctg({self.engiLineEdit.text()})")
-
-    def arcctg(self):
-        self.engiLineEdit.setText(f"arcctg({self.engiLineEdit.text()})")
 
     def fact(self):
         self.engiLineEdit.setText(f"fact({self.engiLineEdit.text()})")
@@ -210,13 +166,12 @@ class CalcWindow(QWidget, Ui_CalcWidget):
     def pow(self):
         try:
             calc = self.sender().parent().objectName()
+            has_2 = ('2' if '2' in self.sender().objectName() else '')
             match calc:
                 case 'Calc':
-                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} ** ' +
-                                                 '2' if '2' in self.sender().objectName() else '')
+                    self.defaultLineEdit.setText(f'{self.defaultLineEdit.text()} ** ' + has_2)
                 case 'EngiCalc':
-                    self.engiLineEdit.setText(f'{self.engiLineEdit.text()} ** ' +
-                                              '2' if '2' in self.sender().objectName() else '')
+                    self.engiLineEdit.setText(f'{self.engiLineEdit.text()} ** ' + has_2)
         except Exception as err:
             show_err(self, err)
 
@@ -357,7 +312,7 @@ class CalcWindow(QWidget, Ui_CalcWidget):
                     filtered_ints = tuple(
                         filter(lambda x: x.strip('(').isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(x),
                                string.split()))
-                    match self.comboBox.currentText():
+                    match self.progModeBox.currentText():
                         case 'HEX':
                             mapped_ints = tuple(map(lambda x: str(int(x, 16)), filtered_ints))
                             res = []
@@ -414,7 +369,8 @@ class CalcWindow(QWidget, Ui_CalcWidget):
                 self.octEdit.setText('0')
                 self.binEdit.setText('0')
                 return
-            match self.comboBox.currentText():
+            integer = int()
+            match self.progModeBox.currentText():
                 case 'HEX':
                     integer = int(self.progLineEdit.text(), 16)
                 case 'DEC':
@@ -431,7 +387,7 @@ class CalcWindow(QWidget, Ui_CalcWidget):
             show_err(self, err)
 
     def reload_calc(self):
-        match self.comboBox.currentText():
+        match self.progModeBox.currentText():
             case 'HEX':
                 self.progTwoBtn.setDisabled(False)
                 self.progThreeBtn.setDisabled(False)
@@ -492,3 +448,11 @@ class CalcWindow(QWidget, Ui_CalcWidget):
                 self.progDBtn.setDisabled(True)
                 self.progEBtn.setDisabled(True)
                 self.progFBtn.setDisabled(True)
+
+
+class BookLibraryWindow(QWidget, Ui_studentBookLibrary):
+    def __init__(self, *args, **kwargs):
+        """BookLibraryWindow class initialization"""
+        super().__init__()
+        self.setupUi(self)
+
