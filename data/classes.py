@@ -2,6 +2,9 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QMainWindow, QWidget
 from itertools import chain
 from math import sqrt, log, factorial as fact
+import numpy as np
+import matplotlib.pyplot as plt
+import sympy as sp
 
 from data.functions import *
 
@@ -9,6 +12,8 @@ from forms.MainWindow_ui import *
 from forms.EquationsWindow_ui import *
 from forms.CalcWindow_ui import *
 from forms.BookLibraryWindow_ui import *
+from forms.GraphWindow_ui import *
+from forms.ReadMeGraphWindow_ui import *
 
 
 class UniversalHelper(QMainWindow, Ui_MainWindow):
@@ -24,6 +29,7 @@ class UniversalHelper(QMainWindow, Ui_MainWindow):
         self.eqBtn.clicked.connect(self.add_widget)
         self.calcBtn.clicked.connect(self.add_widget)
         self.bookLibButton.clicked.connect(self.add_widget)
+        self.graphBtn.clicked.connect(self.add_widget)
 
         self.closeWinsAction.triggered.connect(self.close_widgets)
         self.exitAction.triggered.connect(self.close)
@@ -38,6 +44,13 @@ class UniversalHelper(QMainWindow, Ui_MainWindow):
                     self.win = CalcWindow(self)
                 case 'bookLibButton':
                     self.win = BookLibraryWindow(self)
+                case 'graphBtn':
+                    self.win = ReadMeGraphWindow(self)
+                    self.wins.append(self.win)
+                    self.widgetsLayout.addWidget(self.win)
+
+                    self.win.returnBtn.clicked.connect(self.return_text)
+                    self.win = GraphWindow(self)
             self.wins.append(self.win)
             self.widgetsLayout.addWidget(self.win)
 
@@ -456,3 +469,39 @@ class BookLibraryWindow(QWidget, Ui_studentBookLibrary):
         super().__init__()
         self.setupUi(self)
 
+
+class GraphWindow(QWidget, Ui_Graphs):
+    def __init__(self, *args, **kwargs):
+        super().__init__()
+        self.setupUi(self)
+
+        self.runBtn.clicked.connect(self.run)
+
+    def run(self):
+        try:
+            equation_str = self.graphEdit.text()
+            x = sp.symbols('x')
+            equation = sp.sympify(equation_str)
+            f = sp.lambdify(x, equation, "numpy")
+
+            x_vals = np.linspace(int(self.minEdit.text()), int(self.maxEdit.text()), 400)
+            y_vals = f(x_vals)
+
+            plt.plot(x_vals, y_vals, color='black', linestyle='-', linewidth=1)
+            plt.title(f'График функции: {equation_str}')
+            plt.xlabel('ось x')
+            plt.ylabel('ось y')
+            plt.title(f'график функции y = {equation_str}')
+            plt.grid(True)
+            plt.show()
+
+        except sp.SympifyError as err:
+            show_err(self, err, text="Ошибка! Введено некорректное математическое выражение. Подробнее: {}")
+        except Exception as err:
+            show_err(self, err)
+
+
+class ReadMeGraphWindow(QWidget, Ui_ReadMe):
+    def __init__(self, *args, **kwargs):
+        super().__init__()
+        self.setupUi(self)

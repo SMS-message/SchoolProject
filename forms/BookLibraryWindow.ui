@@ -319,7 +319,7 @@ QPushButton:disabled {
       <widget class="QPushButton" name="returnBtn">
        <property name="minimumSize">
         <size>
-         <width>150</width>
+         <width>300</width>
          <height>30</height>
         </size>
        </property>

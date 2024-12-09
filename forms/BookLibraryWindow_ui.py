@@ -136,7 +136,7 @@ class Ui_studentBookLibrary(object):
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem1)
         self.returnBtn = QtWidgets.QPushButton(parent=studentBookLibrary)
-        self.returnBtn.setMinimumSize(QtCore.QSize(150, 30))
+        self.returnBtn.setMinimumSize(QtCore.QSize(300, 30))
         self.returnBtn.setObjectName("returnBtn")
         self.horizontalLayout_4.addWidget(self.returnBtn)
         self.verticalLayout.addLayout(self.horizontalLayout_4)
