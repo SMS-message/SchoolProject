@@ -3,10 +3,12 @@ from math import tan as t, sin as s, cos as co, radians as r, degrees as deg, as
 
 
 def show_err(self, err: Exception, *args, text="Неизвестная ошибка! Подробнее: {}"):
+    """Showing error on Exception"""
     QMessageBox.critical(self, "Ошибка!", text.format(err))
 
 
 def map_ints(base: int, array: iter) -> tuple:
+    """Returns tuple of ints with base 10"""
     return tuple(map(lambda x: str(int(x.strip('(').strip(')'), base)), array))
 
 
