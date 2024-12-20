@@ -6,23 +6,27 @@ def show_err(self, err: Exception, *args, text="Неизвестная ошиб�
     QMessageBox.critical(self, "Ошибка!", text.format(err))
 
 
-def sin(x: int|float) -> float:
+def map_ints(base: int, array: iter) -> tuple:
+    return tuple(map(lambda x: str(int(x.strip('(').strip(')'), base)), array))
+
+
+def sin(x: int | float) -> float:
     return s(r(x))
 
 
-def cos(x: int|float) -> float:
+def cos(x: int | float) -> float:
     return co(r(x))
 
 
-def tg(x: int|float) -> float:
+def tg(x: int | float) -> float:
     return t(r(x))
 
 
-def ctg(x: int|float) -> float:
+def ctg(x: int | float) -> float:
     return 1 / t(x)
 
 
-def arcsin(x: int|float) -> float:
+def arcsin(x: int | float) -> float:
     return deg(asin(x))
 
 
@@ -30,9 +34,9 @@ def arccos(x: int) -> float:
     return deg(acos(x))
 
 
-def arctg(x: int|float) -> float:
+def arctg(x: int | float) -> float:
     return deg(atan(x))
 
 
-def arcctg(x: int|float) -> float:
+def arcctg(x: int | float) -> float:
     return pi / 2 - arctg(x)

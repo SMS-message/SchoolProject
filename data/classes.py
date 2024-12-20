@@ -75,13 +75,8 @@ class UniversalHelper(QMainWindow, Ui_MainWindow):
         except Exception as err:
             show_err(self, err)
 
+
 class EquationWindow(QWidget, Ui_Equation):
-    def __init__(self, *args):
-        super().__init__()
-        self.setupUi(self)
-
-        self.runBtn.clicked.connect(self.run)
-
     def run(self):
         try:
             match self.EquationTabs.currentIndex():
@@ -110,6 +105,12 @@ class EquationWindow(QWidget, Ui_Equation):
         except Exception as err:
             show_err(self, err)
 
+    def __init__(self, *args):
+        super().__init__()
+        self.setupUi(self)
+
+        self.runBtn.clicked.connect(self.run)
+
 
 class CalcWindow(QWidget, Ui_CalcWidget):
     def __init__(self, *args, **kwargs):
@@ -121,12 +122,12 @@ class CalcWindow(QWidget, Ui_CalcWidget):
                             self.engiButtonGroup.buttons()):
             button.clicked.connect(self.add_text)
 
-        for button in chain(self.operationsButtonGroup.buttons(), # функции для кнопок со знаками
+        for button in chain(self.operationsButtonGroup.buttons(),  # функции для кнопок со знаками
                             self.progOperationsButtonGroup.buttons(),
                             self.engiOperationsButtonGroup.buttons()):
             button.clicked.connect(self.add_oper)
 
-        for button in self.eqButtonGroup.buttons(): # функции для кнопок =
+        for button in self.eqButtonGroup.buttons():  # функции для кнопок =
             button.clicked.connect(self.run)
 
         for button in self.clearButtonGroup.buttons():  # функции для кнопок clear
@@ -155,7 +156,6 @@ class CalcWindow(QWidget, Ui_CalcWidget):
 
         self.piBtn.clicked.connect(self.pi)
         self.factBtn.clicked.connect(self.fact)
-
 
         self.progLineEdit.textChanged.connect(self.reload_numbers)
         self.progModeBox.currentIndexChanged.connect(self.reload_calc)
@@ -323,11 +323,11 @@ class CalcWindow(QWidget, Ui_CalcWidget):
                 case 'ProgCalc':
                     string = self.progLineEdit.text()
                     filtered_ints = tuple(
-                        filter(lambda x: x.strip('(').isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(x),
+                        filter(lambda x: x.strip('(').strip(')').isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(x),
                                string.split()))
                     match self.progModeBox.currentText():
                         case 'HEX':
-                            mapped_ints = tuple(map(lambda x: str(int(x, 16)), filtered_ints))
+                            mapped_ints = map_ints(16, filtered_ints)
                             res = []
                             k = 0
                             for elem in string.split():
@@ -342,11 +342,11 @@ class CalcWindow(QWidget, Ui_CalcWidget):
                             res = self.progLineEdit.text()
                             self.progLineEdit.setText(f'{eval(res)}')
                         case 'OCT':
-                            mapped_ints = tuple(map(lambda x: int(x, 8), filtered_ints))
+                            mapped_ints = mapped_ints = map_ints(8, filtered_ints)
                             res = []
                             k = 0
                             for elem in string.split():
-                                if elem.isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(elem):
+                                if {*map(str, range(8))} & set(elem):
                                     res.append(mapped_ints[k])
                                     k += 1
                                 else:
@@ -354,11 +354,11 @@ class CalcWindow(QWidget, Ui_CalcWidget):
                             res = ' '.join(res)
                             self.progLineEdit.setText(f'{eval(res):o}')
                         case 'BIN':
-                            mapped_ints = tuple(map(lambda x: int(x, 10), filtered_ints))
+                            mapped_ints = mapped_ints = map_ints(2, filtered_ints)
                             res = []
                             k = 0
                             for elem in string.split():
-                                if elem.isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(elem):
+                                if {'0', '1'} & set(elem):
                                     res.append(mapped_ints[k])
                                     k += 1
                                 else:
@@ -396,6 +396,8 @@ class CalcWindow(QWidget, Ui_CalcWidget):
             self.decEdit.setText(f'{integer:}')
             self.octEdit.setText(f'{integer:o}')
             self.binEdit.setText(f'{integer:b}')
+        except SyntaxError as err:
+            print(f'SyntaxError! {err}')
         except Exception as err:
             show_err(self, err)
 
@@ -484,7 +486,7 @@ class GraphWindow(QWidget, Ui_Graphs):
             equation = sp.sympify(equation_str)
             f = sp.lambdify(x, equation, "numpy")
 
-            x_vals = np.linspace(int(self.minEdit.text()), int(self.maxEdit.text()), 400)
+            x_vals = np.linspace(int(self.minEdit.text()), int(self.maxEdit.text()), 1000)
             y_vals = f(x_vals)
 
             plt.plot(x_vals, y_vals, color='black', linestyle='-', linewidth=1)
