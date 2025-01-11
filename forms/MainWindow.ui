@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>837</width>
+    <width>672</width>
     <height>592</height>
    </rect>
   </property>
@@ -16,21 +16,67 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>UniHelp</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow {
 	background-color: rgb(18, 18, 18);
+	background-image: url('./img/background.png');
+}
+
+QMenuBar {
+    background-color: qlineargradient(spread:pad, x1:0.472, y1:1, x2:0.482955, y2:0, stop:0 rgba(18, 18, 18, 123), stop:0.795455 rgba(35, 35, 35, 255));
+    spacing: 3px;
+}
+
+QMenuBar::item {
+	color: #FFFFFF;
+    padding: 1px 4px;
+    background: transparent;
+    border-radius: 4px;
+}
+
+QMenuBar::item:selected {
+    background: #a8a8a8;
+}
+
+QMenuBar::item:pressed {
+    background: #888888;
+}
+
+QMenu::separator {
+    height: 2px;
+    background: #353535;
+}
+
+QMenu {
+	color: #FFFFFF;
+	background-color: #121212;
+}
+
+QMenu::item:selected {
+	color: #FFFFFF;
+	background-color: #303030;
+}
+
+QWidget {
+	border-radius: 10px;
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QFrame" name="buttonsFrame">
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>300</height>
+       </size>
+      </property>
       <property name="styleSheet">
        <string notr="true">QFrame {
-	background-color: rgb(18, 18, 18);
-	
+	background-color: #121212;
+
 	border: solid;
 	border-color: rgb(45,55,50);
 	border-width: 2px;
@@ -38,14 +84,13 @@
 
 QPushButton {
 	color: white;
-	background: rgb(65, 65, 65);
-	
+
 	width: 300px;
 	height: 20px;
 	
 	border: solid;
-	border-color: black;
-	border-width: 0px;
+	border-color: #353535;
+	border-width: 1px;
 	border-radius: 8px;
 }
 
@@ -74,25 +119,31 @@ QPushButton:pressed {
       </property>
       <layout class="QVBoxLayout" name="buttons">
        <property name="spacing">
-        <number>5</number>
+        <number>0</number>
+       </property>
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
        </property>
        <property name="leftMargin">
-        <number>20</number>
+        <number>5</number>
        </property>
        <property name="topMargin">
-        <number>150</number>
+        <number>75</number>
        </property>
        <property name="rightMargin">
-        <number>30</number>
+        <number>5</number>
        </property>
        <property name="bottomMargin">
-        <number>300</number>
+        <number>75</number>
        </property>
        <item>
         <widget class="QPushButton" name="calcBtn">
          <property name="text">
           <string>Калькулятор</string>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">tabsButtonGroup</string>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -100,6 +151,9 @@ QPushButton:pressed {
          <property name="text">
           <string>Графики</string>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">tabsButtonGroup</string>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -107,6 +161,9 @@ QPushButton:pressed {
          <property name="text">
           <string>Уравнения</string>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">tabsButtonGroup</string>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -114,6 +171,9 @@ QPushButton:pressed {
          <property name="text">
           <string>Библиотека формул</string>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">tabsButtonGroup</string>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -121,6 +181,9 @@ QPushButton:pressed {
          <property name="text">
           <string>Библиотека учебников</string>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">tabsButtonGroup</string>
+         </attribute>
         </widget>
        </item>
       </layout>
@@ -128,6 +191,18 @@ QPushButton:pressed {
     </item>
     <item>
      <widget class="QFrame" name="textFrame">
+      <property name="minimumSize">
+       <size>
+        <width>490</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>500</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <spacer name="verticalSpacer">
@@ -151,15 +226,16 @@ QPushButton:pressed {
          </property>
          <property name="styleSheet">
           <string notr="true">QLabel {
+	padding: 5px 5px 5px 5px;
 	color: white;
 	border: solid;
-	border-color: rgb(45, 45, 45);
+	border-color: #CCCCCC;
 	border-width: 2px;
 	border-radius: 16px;
 }</string>
          </property>
          <property name="text">
-          <string>Универсальный помощник в учёбе</string>
+          <string>Universal Helper</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -200,9 +276,56 @@ QPushButton:pressed {
       </layout>
      </widget>
     </item>
+    <item>
+     <layout class="QHBoxLayout" name="widgetsLayout"/>
+    </item>
    </layout>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>672</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Файл</string>
+    </property>
+    <addaction name="closeWinsAction"/>
+    <addaction name="separator"/>
+    <addaction name="exitAction"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Справка</string>
+    </property>
+    <addaction name="authorsAction"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+  </widget>
+  <action name="closeWinsAction">
+   <property name="text">
+    <string>Закрыть все окна</string>
+   </property>
+  </action>
+  <action name="exitAction">
+   <property name="text">
+    <string>Выход</string>
+   </property>
+  </action>
+  <action name="authorsAction">
+   <property name="text">
+    <string>Авторы</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="tabsButtonGroup"/>
+ </buttongroups>
 </ui>
