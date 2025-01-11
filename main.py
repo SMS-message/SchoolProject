@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import QApplication
 import sys
 
 
-def main(*args, **kwargs) -> None:
+def main() -> None:
     """main function"""
     app = QApplication(sys.argv)
 

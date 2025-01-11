@@ -196,7 +196,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "UniHelp"))
         self.calcBtn.setText(_translate("MainWindow", "Калькулятор"))
         self.graphBtn.setText(_translate("MainWindow", "Графики"))
         self.eqBtn.setText(_translate("MainWindow", "Уравнения"))

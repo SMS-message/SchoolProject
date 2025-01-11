@@ -73,7 +73,22 @@ QPushButton:disabled {
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTableWidget" name="tableWidget"/>
+    <widget class="QTableWidget" name="tableWidget">
+     <property name="styleSheet">
+      <string notr="true">QHeaderView::section
+{
+	border: 1px solid;
+	background-color:#303030;
+	color: white;
+}
+
+QTableWidget::item {
+	border:1px solid #353535;
+}
+
+</string>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">

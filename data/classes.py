@@ -1,10 +1,11 @@
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QMainWindow, QWidget
+from PyQt6.QtWidgets import QMainWindow, QWidget, QTableWidgetItem
 from itertools import chain
 from math import sqrt, log, factorial as fact
 import numpy as np
 import matplotlib.pyplot as plt
 import sympy as sp
+import sqlite3
 
 from data.functions import *
 
@@ -14,6 +15,7 @@ from forms.CalcWindow_ui import *
 from forms.BookLibraryWindow_ui import *
 from forms.GraphWindow_ui import *
 from forms.ReadMeGraphWindow_ui import *
+from forms.AboutWindow_ui import *
 
 
 class UniversalHelper(QMainWindow, Ui_MainWindow):
@@ -21,7 +23,7 @@ class UniversalHelper(QMainWindow, Ui_MainWindow):
         """UniversalHelper class initialization"""
         super().__init__()
         self.setupUi(self)
-        self.win = QWidget
+        self.win: QWidget = QWidget()
         self.wins: list[QWidget] = []
 
         self.setWindowIcon(QIcon('img/favicon.ico'))
@@ -31,6 +33,7 @@ class UniversalHelper(QMainWindow, Ui_MainWindow):
         self.bookLibButton.clicked.connect(self.add_widget)
         self.graphBtn.clicked.connect(self.add_widget)
 
+        self.authorsAction.triggered.connect(self.about)
         self.closeWinsAction.triggered.connect(self.close_widgets)
         self.exitAction.triggered.connect(self.close)
 
@@ -63,6 +66,10 @@ class UniversalHelper(QMainWindow, Ui_MainWindow):
             self.wins.pop().close()
         self.textFrame.show()
         self.resize(672, 592)
+
+    def about(self):
+        self.win = AboutWindow(self)
+        self.win.show()
 
     def return_text(self):
         try:
@@ -470,7 +477,28 @@ class BookLibraryWindow(QWidget, Ui_studentBookLibrary):
         """BookLibraryWindow class initialization"""
         super().__init__()
         self.setupUi(self)
+        self.con = sqlite3.connect('db/textBookDB.db')
+        self.cur = self.con.cursor()
+        self.findBtn.clicked.connect(self.run)
 
+    def run(self):
+        if not self.nameLineEdit.text() and not self.authorsLineEdit.text():
+            res = self.cur.execute(f"""
+                                SELECT *
+                                  FROM textBooks
+                                 WHERE subject_id IN (
+                                           SELECT ID
+                                             FROM subjects
+                                            WHERE subject_name = '{self.subjectBox.currentText()}'
+                                       )
+                                AND 
+                                       grade = '{self.gradeBox.currentText()}';
+                                """)
+
+            for i, row in enumerate(res):
+                self.tableWidget.setRowCount(self.tableWidget.rowCount() + 1)
+                for j, elem in enumerate(row):
+                    self.tableWidget.setItem(i, j, QTableWidgetItem(str(elem)))
 
 class GraphWindow(QWidget, Ui_Graphs):
     def __init__(self, *args, **kwargs):
@@ -504,6 +532,11 @@ class GraphWindow(QWidget, Ui_Graphs):
 
 
 class ReadMeGraphWindow(QWidget, Ui_ReadMe):
+    def __init__(self, *args, **kwargs):
+        super().__init__()
+        self.setupUi(self)
+
+class AboutWindow(QWidget, Ui_AboutUniHelp):
     def __init__(self, *args, **kwargs):
         super().__init__()
         self.setupUi(self)

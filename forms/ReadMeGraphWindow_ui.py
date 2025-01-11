@@ -109,5 +109,5 @@ class Ui_ReadMe(object):
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Косинус - &quot;cos()&quot;</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Тангенс - &quot;tan()&quot;</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Котангенс - &quot;cot()&quot;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Обратные функции - &quot;arc$func$()&quot;</p></body></html>"))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Обратные функции - &quot;a$func$()&quot;</p></body></html>"))
         self.returnBtn.setText(_translate("ReadMe", "Вернуться"))

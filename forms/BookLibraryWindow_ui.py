@@ -62,6 +62,18 @@ class Ui_studentBookLibrary(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(studentBookLibrary)
         self.verticalLayout.setObjectName("verticalLayout")
         self.tableWidget = QtWidgets.QTableWidget(parent=studentBookLibrary)
+        self.tableWidget.setStyleSheet("QHeaderView::section\n"
+"{\n"
+"    border: 1px solid;\n"
+"    background-color:#303030;\n"
+"    color: white;\n"
+"}\n"
+"\n"
+"QTableWidget::item {\n"
+"    border:1px solid #353535;\n"
+"}\n"
+"\n"
+"")
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(0)
         self.tableWidget.setRowCount(0)
