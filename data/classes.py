@@ -24,7 +24,7 @@ class UniversalHelper(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.win: QWidget = QWidget()
-        self.wins: list[QWidget] = []
+        self.wins: list[QWidget] = []  # список запущенных окон
 
         self.setWindowIcon(QIcon('img/favicon.ico'))
 
