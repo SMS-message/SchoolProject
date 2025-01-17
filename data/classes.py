@@ -482,6 +482,12 @@ class BookLibraryWindow(QWidget, Ui_studentBookLibrary):
         self.findBtn.clicked.connect(self.run)
 
     def run(self):
+        if self.subjectBox.text() == "Любой" and self.gradeBox.text() == "Любой":
+            ...
+        if self.subjectBox.text() == "Любой":
+            ...
+        if self.gradeBox.text() == "Любой":
+            ...
         if not self.nameLineEdit.text() and not self.authorsLineEdit.text():
             res = self.cur.execute(f"""
                                 SELECT *
