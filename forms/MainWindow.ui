@@ -92,6 +92,7 @@ QPushButton {
 	border-color: #353535;
 	border-width: 1px;
 	border-radius: 8px;
+	padding: 2px;
 }
 
 QPushButton:hover {
@@ -160,16 +161,6 @@ QPushButton:pressed {
         <widget class="QPushButton" name="eqBtn">
          <property name="text">
           <string>Уравнения</string>
-         </property>
-         <attribute name="buttonGroup">
-          <string notr="true">tabsButtonGroup</string>
-         </attribute>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="forLibBtn">
-         <property name="text">
-          <string>Библиотека формул</string>
          </property>
          <attribute name="buttonGroup">
           <string notr="true">tabsButtonGroup</string>

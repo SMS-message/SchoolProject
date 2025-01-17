@@ -83,6 +83,7 @@ class Ui_MainWindow(object):
 "    border-color: #353535;\n"
 "    border-width: 1px;\n"
 "    border-radius: 8px;\n"
+"    padding: 2px;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
@@ -123,10 +124,6 @@ class Ui_MainWindow(object):
         self.eqBtn.setObjectName("eqBtn")
         self.tabsButtonGroup.addButton(self.eqBtn)
         self.buttons.addWidget(self.eqBtn)
-        self.forLibBtn = QtWidgets.QPushButton(parent=self.buttonsFrame)
-        self.forLibBtn.setObjectName("forLibBtn")
-        self.tabsButtonGroup.addButton(self.forLibBtn)
-        self.buttons.addWidget(self.forLibBtn)
         self.bookLibButton = QtWidgets.QPushButton(parent=self.buttonsFrame)
         self.bookLibButton.setObjectName("bookLibButton")
         self.tabsButtonGroup.addButton(self.bookLibButton)
@@ -200,7 +197,6 @@ class Ui_MainWindow(object):
         self.calcBtn.setText(_translate("MainWindow", "Калькулятор"))
         self.graphBtn.setText(_translate("MainWindow", "Графики"))
         self.eqBtn.setText(_translate("MainWindow", "Уравнения"))
-        self.forLibBtn.setText(_translate("MainWindow", "Библиотека формул"))
         self.bookLibButton.setText(_translate("MainWindow", "Библиотека учебников"))
         self.mainLabel.setText(_translate("MainWindow", "Universal Helper"))
         self.label.setText(_translate("MainWindow", "Выберите вкладку слева"))
