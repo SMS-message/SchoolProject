@@ -1,6 +1,10 @@
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QMessageBox, QPushButton
+from webbrowser import open_new_tab
 from math import tan as t, sin as s, cos as co, radians as r, degrees as deg, asin, acos, atan, pi
 
+
+def add_event_listener_to_btn(btn: QPushButton, link: str):
+    btn.clicked.connect(lambda: open_new_tab(link))
 
 def show_err(self, err: Exception, *args, text="Неизвестная ошибка! Подробнее: {}"):
     """Showing error on Exception"""
