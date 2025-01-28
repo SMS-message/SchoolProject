@@ -482,29 +482,50 @@ class BookLibraryWindow(QWidget, Ui_studentBookLibrary):
         self.findBtn.clicked.connect(self.run)
 
     def run(self):
-        if self.subjectBox.text() == "Любой" and self.gradeBox.text() == "Любой":
-            ...
-        if self.subjectBox.text() == "Любой":
-            ...
-        if self.gradeBox.text() == "Любой":
-            ...
-        if not self.nameLineEdit.text() and not self.authorsLineEdit.text():
-            res = self.cur.execute(f"""
-                                SELECT *
-                                  FROM textBooks
-                                 WHERE subject_id IN (
-                                           SELECT ID
-                                             FROM subjects
-                                            WHERE subject_name = '{self.subjectBox.currentText()}'
-                                       )
-                                AND 
-                                       grade = '{self.gradeBox.currentText()}';
-                                """)
-
+        self.tableWidget.clear()
+        self.tableWidget.setRowCount(0)
+        self.tableWidget.setColumnCount(0)
+        try:
+            request = "SELECT name, link FROM textBooks "
+            texts = {"grade": ('' if self.gradeBox.currentText() == "Любой" else self.gradeBox.currentText()),
+                     "subject_id": ('' if self.subjectBox.currentText() == "Любой" else self.subjectBox.currentText()),
+                     "author_id": self.authorsLineEdit.text(), "name": self.nameLineEdit.text()}
+            if any(texts.values()):
+                request += "WHERE "
+                flag = False
+                for key, value in texts.items():
+                    if not value:
+                        continue
+                    match key:
+                        case "subject_id":
+                            request += f"{key} IN (SELECT ID FROM subjects WHERE subject_name='{value}')"
+                            flag = True
+                            continue
+                        case "author_id":
+                            request += f"{key} IN (SELECT ID FROM authors WHERE author_surname LIKE '%{value}%')"
+                            flag = True
+                            continue
+                        case "name":
+                            request += f"{key} LIKE '%{value}%'"
+                            flag = True
+                            continue
+                    if flag:
+                        request += " AND "
+                    request += f"{key}={value}"
+                    flag = True
+            print(request)
+            res = self.cur.execute(request)
+            self.tableWidget.setColumnCount(2)
+            self.tableWidget.setHorizontalHeaderLabels(("Учебник", "Ссылка"))
             for i, row in enumerate(res):
                 self.tableWidget.setRowCount(self.tableWidget.rowCount() + 1)
                 for j, elem in enumerate(row):
                     self.tableWidget.setItem(i, j, QTableWidgetItem(str(elem)))
+            self.tableWidget.setColumnWidth(0, 200)
+            self.tableWidget.setColumnWidth(1, 400)
+        except Exception as err:
+            show_err(self, err)
+
 
 class GraphWindow(QWidget, Ui_Graphs):
     def __init__(self, *args, **kwargs):
