@@ -1,11 +1,13 @@
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QMainWindow, QWidget, QTableWidgetItem
+from PyQt6.QtWidgets import QMainWindow, QWidget, QTableWidgetItem, QPushButton, QButtonGroup
 from itertools import chain
+from webbrowser import open_new_tab
 from math import sqrt, log, factorial as fact
 import numpy as np
 import matplotlib.pyplot as plt
 import sympy as sp
 import sqlite3
+
 
 from data.functions import *
 
@@ -482,10 +484,10 @@ class BookLibraryWindow(QWidget, Ui_studentBookLibrary):
         self.findBtn.clicked.connect(self.run)
 
     def run(self):
-        self.tableWidget.clear()
-        self.tableWidget.setRowCount(0)
-        self.tableWidget.setColumnCount(0)
         try:
+            self.tableWidget.clear()
+            self.tableWidget.setRowCount(0)
+            self.tableWidget.setColumnCount(0)
             request = "SELECT name, link FROM textBooks "
             texts = {"grade": ('' if self.gradeBox.currentText() == "Любой" else self.gradeBox.currentText()),
                      "subject_id": ('' if self.subjectBox.currentText() == "Любой" else self.subjectBox.currentText()),
@@ -520,12 +522,17 @@ class BookLibraryWindow(QWidget, Ui_studentBookLibrary):
             for i, row in enumerate(res):
                 self.tableWidget.setRowCount(self.tableWidget.rowCount() + 1)
                 for j, elem in enumerate(row):
-                    self.tableWidget.setItem(i, j, QTableWidgetItem(str(elem)))
+                    if j == 1:
+                        button = QPushButton()
+                        button.setText("Скачать")
+                        button.clicked.connect(lambda: open_new_tab(str(elem)))
+                        self.tableWidget.setCellWidget(i, j, button)  # TODO: здесь где-то баг - исправить
+                    else:
+                        self.tableWidget.setItem(i, j, QTableWidgetItem(str(elem)))
             self.tableWidget.setColumnWidth(0, 200)
-            self.tableWidget.setColumnWidth(1, 400)
+            self.tableWidget.setColumnWidth(1, 100)
         except Exception as err:
             show_err(self, err)
-
 
 class GraphWindow(QWidget, Ui_Graphs):
     def __init__(self, *args, **kwargs):
