@@ -1,7 +1,7 @@
 # Импорты нужных библиотек и элементов
 
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QMainWindow, QWidget, QTableWidgetItem, QPushButton, QButtonGroup
+from PyQt6.QtWidgets import QMainWindow, QWidget, QTableWidgetItem
 from itertools import chain
 from math import sqrt, log, factorial as fact
 import numpy as np
@@ -10,7 +10,6 @@ import sympy as sp
 import sqlite3
 
 # Импорт собственных функций
-
 from data.functions import *
 
 # Импорт интерфейсов окон
@@ -73,7 +72,7 @@ class UniversalHelper(QMainWindow, Ui_MainWindow):
 
             self.win.returnBtn.clicked.connect(self.return_text)  # Обработчик закрытия выбранного виджета
         except Exception as err:  # В случае ошибки
-            show_err(self, err)  # Уведомить пользователя об ошибке с помошью нового окна
+            show_err(self, err)  # Уведомить пользователя об ошибке с помощью нового окна
 
     def close_widgets(self) -> None:
         """
@@ -376,7 +375,12 @@ class CalcWindow(QWidget, Ui_CalcWidget):
         except Exception as err:
             show_err(self, err)
 
-    def negative(self) -> None:  # TODO: Комментарии ко всем функциям
+    def negative(self) -> None:
+        """
+        Отрицание выражения на экране
+
+        :returns:
+        """
         try:
             calc = self.sender().parent().objectName()  # Выбор калькулятора, с которого пришёл сигнал
             match calc:
@@ -390,6 +394,11 @@ class CalcWindow(QWidget, Ui_CalcWidget):
             show_err(self, err)
 
     def add_oper(self) -> None:
+        """
+        Добавляет операцию на экран
+
+        :returns:
+        """
         try:
             calc = self.sender().parent().objectName()  # Выбор калькулятора, с которого пришёл сигнал
             match calc:
@@ -403,12 +412,18 @@ class CalcWindow(QWidget, Ui_CalcWidget):
             show_err(self, err)
 
     def add_text(self) -> None:
+        """
+        Добавляет специфичный текст с кнопки, с которой пришёл сигнал
+
+        :returns:
+        """
         try:
             calc = self.sender().parent().objectName()  # Выбор калькулятора, с которого пришёл сигнал
             match calc:
                 case 'Calc':  # Если сигнал пришёл с обычного калькулятора
-                    if self.defaultLineEdit.text() and self.defaultLineEdit.text()[
-                        -1].isdigit() and not ',' in self.defaultLineEdit.text():
+                    if (self.defaultLineEdit.text() and  # Если в поле ввода уже что-то есть
+                            self.defaultLineEdit.text()[-1].isdigit() and  # Если последний символ - цифра
+                            not ',' in self.defaultLineEdit.text()):  # Если нет запятых во вводе
                         self.defaultLineEdit.setText(
                             f'{self.defaultLineEdit.text()}{self.sender().text()}'.replace(',', '.', 1))
                     else:
@@ -429,6 +444,11 @@ class CalcWindow(QWidget, Ui_CalcWidget):
             show_err(self, err)
 
     def run(self) -> None:
+        """
+        Вычисляет значение заданного выражения в поле ввода
+
+        :returns: None
+        """
         try:
             calc = self.sender().parent().objectName()  # Выбор калькулятора, с которого пришёл сигнал
             match calc:
@@ -440,86 +460,97 @@ class CalcWindow(QWidget, Ui_CalcWidget):
                     string = self.progLineEdit.text()
                     filtered_ints = tuple(
                         filter(lambda x: x.strip('(').strip(')').isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(x),
-                               string.split()))
-                    match self.progModeBox.currentText():
-                        case 'HEX':
-                            mapped_ints = map_ints(16, filtered_ints)
-                            res = []
-                            k = 0
+                               string.split()))  # Массив со всеми числами
+                    match self.progModeBox.currentText():  # Выбор режима калькулятора
+                        case 'HEX':  # Шестнадцатеричная система счисления
+                            mapped_ints = map_ints(16, filtered_ints)   # Перевод в десятичную систему счисления
+                            res = []  # Список для хранения элементов конечной строки
+                            k = 0  # Индекс для выбора следующего отфильтрованного числа
                             for elem in string.split():
-                                if elem.isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(elem):
-                                    res.append(mapped_ints[k])
-                                    k += 1
+                                if elem.isdigit() or {'A', 'B', 'C', 'D', 'E', 'F'} & set(elem):  # Если исходный элемент - число
+                                    res.append(mapped_ints[k])  # Замена шестнадцатеричного числа десятичным
+                                    k += 1  # Увеличение индекса
                                 else:
                                     res.append(elem)
-                            res = ' '.join(res)
-                            self.progLineEdit.setText(f'{eval(res):x}'.upper())
-                        case 'DEC':
+                            res = ' '.join(res)  # Создание строки из все элементов
+                            self.progLineEdit.setText(f'{eval(res):x}'.upper())  # Перевод в шестнадцатеричную систему и последующий вывод на экран
+                        case 'DEC':  # Десятичная система счисления
                             res = self.progLineEdit.text()
                             self.progLineEdit.setText(f'{eval(res)}')
-                        case 'OCT':
-                            mapped_ints = map_ints(8, filtered_ints)
-                            res = []
-                            k = 0
+                        case 'OCT':  # Восьмеричная система счисления
+                            mapped_ints = map_ints(8, filtered_ints)  # Перевод в десятичную систему счисления
+                            res = []  # Список для хранения элементов конечной строки
+                            k = 0  # Индекс для выбора следующего отфильтрованного числа
                             for elem in string.split():
-                                if {*map(str, range(8))} & set(elem):
-                                    res.append(mapped_ints[k])
-                                    k += 1
+                                if {*map(str, range(8))} & set(elem):  # Если исходный элемент - число
+                                    res.append(mapped_ints[k])  # Замена восьмеричного числа десятичным
+                                    k += 1  # Увеличение индекса
                                 else:
                                     res.append(elem)
-                            res = ' '.join(res)
-                            self.progLineEdit.setText(f'{eval(res):o}')
-                        case 'BIN':
-                            mapped_ints = mapped_ints = map_ints(2, filtered_ints)
-                            res = []
-                            k = 0
+                            res = ' '.join(res)  # Создание строки из все элементов
+                            self.progLineEdit.setText(f'{eval(res):o}')  # Перевод в восьмеричную систему и последующий вывод на экран
+                        case 'BIN':  # Двоичная система счисления
+                            mapped_ints = map_ints(2, filtered_ints)  # Перевод в двоичную систему счисления
+                            res = []  # Список для хранения элементов конечной строки
+                            k = 0  # Индекс для выбора следующего отфильтрованного числа
                             for elem in string.split():
-                                if {'0', '1'} & set(elem):
-                                    res.append(mapped_ints[k])
-                                    k += 1
+                                if {'0', '1'} & set(elem):  # Если исходный элемент - число
+                                    res.append(mapped_ints[k])  # Замена двоичного числа десятичным
+                                    k += 1  # Увеличение индекса
                                 else:
                                     res.append(elem)
-                            res = ' '.join(res)
-                            self.progLineEdit.setText(f'{eval(res):b}')
-                    self.reload_numbers()
-
-        except SyntaxError as err:
+                            res = ' '.join(res)  # Создание строки из все элементов
+                            self.progLineEdit.setText(f'{eval(res):b}')  # Перевод в двоичную систему и последующий вывод на экран
+                    self.reload_numbers()  # Обновить значения в разных системах счисления
+        except SyntaxError as err:  # Обработчик синтаксических ошибок
             show_err(self, err, text='Синтаксическая ошибка! Введите данные корректно')
         except Exception as err:
             show_err(self, err)
 
     def reload_numbers(self) -> None:
+        """
+        Вычисление и обновление значений выражения в разных системах счисления
+
+        :returns: None
+        """
         try:
-            if {'+', '-', '*', '<', '>', '%', '/', '(', ')'} & set(self.progLineEdit.text()):
-                return
-            if not self.progLineEdit.text():
+            if {'+', '-', '*', '<', '>', '%', '/', '(', ')'} & set(self.progLineEdit.text()):  # Если в поле ввода есть операции
+                return  # Закончить обновление
+            if not self.progLineEdit.text():  # Если в поле ввода пусто
+                # Везде вывести нули
                 self.hexEdit.setText('0')
                 self.decEdit.setText('0')
                 self.octEdit.setText('0')
                 self.binEdit.setText('0')
-                return
-            integer = int()
-            match self.progModeBox.currentText():
-                case 'HEX':
+                return # Закончить обновление
+            integer = int()  # Создание нового числа
+            match self.progModeBox.currentText():  # Выбор режима работы
+                case 'HEX':  # Шестнадцатеричная система счисления
                     integer = int(self.progLineEdit.text(), 16)
-                case 'DEC':
+                case 'DEC':  # Десятичная система счисления
                     integer = int(self.progLineEdit.text())
-                case 'OCT':
+                case 'OCT':  # Восьмеричная система счисления
                     integer = int(self.progLineEdit.text(), 8)
-                case 'BIN':
+                case 'BIN':  # Двоичная система счисления
                     integer = int(self.progLineEdit.text(), 2)
-            self.hexEdit.setText(f'{integer:x}'.upper())
-            self.decEdit.setText(f'{integer:}')
-            self.octEdit.setText(f'{integer:o}')
-            self.binEdit.setText(f'{integer:b}')
+            self.hexEdit.setText(f'{integer:x}'.upper())  # Результат в шестнадцатеричной системе счисления
+            self.decEdit.setText(f'{integer:}')  # Результат в десятичной системе счисления
+            self.octEdit.setText(f'{integer:o}')  # Результат в восьмеричной системе счисления
+            self.binEdit.setText(f'{integer:b}')  # Результат в двоичной системе счисления
         except SyntaxError as err:
             print(f'SyntaxError! {err}')
         except Exception as err:
             show_err(self, err)
 
     def reload_calc(self) -> None:
-        match self.progModeBox.currentText():
+        """
+        Блокировка кнопок при смене режима
+
+        :returns:
+        """
+        match self.progModeBox.currentText():  # Выбранный режим
             case 'HEX':
+                # Включить шестнадцатеричные кнопки
                 self.progTwoBtn.setDisabled(False)
                 self.progThreeBtn.setDisabled(False)
                 self.progFourBtn.setDisabled(False)
@@ -535,6 +566,7 @@ class CalcWindow(QWidget, Ui_CalcWidget):
                 self.progEBtn.setDisabled(False)
                 self.progFBtn.setDisabled(False)
             case 'DEC':
+                # Включить десятичные кнопки
                 self.progTwoBtn.setDisabled(False)
                 self.progThreeBtn.setDisabled(False)
                 self.progFourBtn.setDisabled(False)
@@ -550,6 +582,7 @@ class CalcWindow(QWidget, Ui_CalcWidget):
                 self.progEBtn.setDisabled(True)
                 self.progFBtn.setDisabled(True)
             case 'OCT':
+                # Включить восьмеричные кнопки
                 self.progTwoBtn.setDisabled(False)
                 self.progThreeBtn.setDisabled(False)
                 self.progFourBtn.setDisabled(False)
@@ -565,6 +598,7 @@ class CalcWindow(QWidget, Ui_CalcWidget):
                 self.progEBtn.setDisabled(True)
                 self.progFBtn.setDisabled(True)
             case 'BIN':
+                # Включить двоичные кнопки
                 self.progTwoBtn.setDisabled(True)
                 self.progThreeBtn.setDisabled(True)
                 self.progFourBtn.setDisabled(True)
@@ -582,99 +616,116 @@ class CalcWindow(QWidget, Ui_CalcWidget):
 
 
 class BookLibraryWindow(QWidget, Ui_studentBookLibrary):
+    """Окно библиотеки учебников"""
     def __init__(self, *args, **kwargs):
-        """BookLibraryWindow class initialization"""
+        """Инициализация окна библиотеки учебников"""
         super().__init__()
-        self.setupUi(self)
-        self.con = sqlite3.connect('db/textBookDB.db')
-        self.cur = self.con.cursor()
-        self.findBtn.clicked.connect(self.run)
+        self.setupUi(self)  # Установка интерфейса
+        self.con = sqlite3.connect('db/textBookDB.db')  # Подключение к базе данных
+        self.cur = self.con.cursor()  # Создание исполнителя запросов
+        self.findBtn.clicked.connect(self.run)  # Обработчик нажатий на кнопку поиска
 
-    def run(self):
+    def run(self) -> None:
+        """
+        Поиск учебников в базе данных
+
+        :returns: None
+        """
         try:
+            # Очистка предыдущих значений поиска
             self.tableWidget.clear()
             self.tableWidget.setRowCount(0)
             self.tableWidget.setColumnCount(0)
+
+            # Создание основы запроса
             request = "SELECT name, link FROM textBooks "
+
+            # Словарь для соответствующих названий колонок в базе данных и текстом запроса
             texts = {"grade": ('' if self.gradeBox.currentText() == "Любой" else self.gradeBox.currentText()),
                      "subject_id": ('' if self.subjectBox.currentText() == "Любой" else self.subjectBox.currentIndex()),
                      "author_id": self.authorsLineEdit.text(), "name": self.nameLineEdit.text()}
-            if any(texts.values()):
-                request += "WHERE "
-                flag = False
-                for key, value in texts.items():
-                    if not value:
-                        continue
-                    if flag:
-                        request += " AND "
-                    match key:
-                        case "author_id":
-                            request += f"{key} IN (SELECT ID FROM authors WHERE author_surname LIKE '%{value}%')"
-                            flag = True
-                            continue
-                        case "name":
-                            request += f"{key} LIKE '%{value}%'"
-                            flag = True
-                            continue
-                    request += f"{key}={value}"
-                    flag = True
-            print(request)
-            res = self.cur.execute(request)
-            self.tableWidget.setColumnCount(2)
-            self.tableWidget.setHorizontalHeaderLabels(("Учебник", "Ссылка"))
-            for i, row in enumerate(res):
-                self.tableWidget.setRowCount(self.tableWidget.rowCount() + 1)
-                for j, elem in enumerate(row):
-                    if j == 1:
-                        button = QPushButton()
-                        button.setText("Скачать")
-                        add_event_listener_to_btn(button, str(elem))
-                        self.tableWidget.setCellWidget(i, j, button)
+
+            if any(texts.values()):  # Если запрос не пустой
+                request += "WHERE "  # Добавление к запросу условий
+                flag = False  # флаг - было ли добавлено хоть одно условие? (Нужен для последующего добавления "AND" в запрос)
+                for key, value in texts.items():  # Итерация по словарю
+                    if not value:  # Если не указано значение
+                        continue  # Продолжить итерацию
+                    if flag:  # Если было добавлено хоть одно условие
+                        request += " AND "  # Добавить "AND" в запрос
+                    match key:  # Если ключ
+                        case "author_id":  # Айди автора
+                            request += f"{key} IN (SELECT ID FROM authors WHERE author_surname LIKE '%{value}%')"  # Добавление в запрос специфичной строки
+                            flag = True  # Добавлено условие
+                            continue  # Продолжить итерацию
+                        case "name":  # Имя книги/учебника
+                            request += f"{key} LIKE '%{value}%'"  # Добавление в запрос специфичной строки
+                            flag = True  # Добавлено условие
+                            continue  # Имя книги/учебника
+                    # Если не было особых ключей
+                    request += f"{key}={value}"  # Добавление условия
+                    flag = True  # Добавлено условие
+            res = self.cur.execute(request)  # Сделать запрос в базу данных
+            self.tableWidget.setColumnCount(2)  # Установка количества колонок в виджете таблицы
+            self.tableWidget.setHorizontalHeaderLabels(("Учебник", "Ссылка"))  # Установка названий колонок
+            for i, row in enumerate(res):  # Итерация по запросу
+                self.tableWidget.setRowCount(self.tableWidget.rowCount() + 1)  # Добавить строку в виджет
+                for j, elem in enumerate(row):  # Итерация по каждому результату запроса
+                    if j == 1:  # Если результат - ссылка
+                        button = QPushButton()  # Создание новой кнопки для ссылки
+                        button.setText("Скачать")  # Установка текста на кнопку
+                        add_event_listener_to_btn(button, str(elem))  # Добавление обработчика нажатий на кнопку
+                        self.tableWidget.setCellWidget(i, j, button)  # Установка кнопки на виджет таблицы
                     else:
-                        self.tableWidget.setItem(i, j, QTableWidgetItem(str(elem)))
-            self.tableWidget.setColumnWidth(0, 200)
-            self.tableWidget.setColumnWidth(1, 100)
+                        self.tableWidget.setItem(i, j, QTableWidgetItem(str(elem)))  # Добавление текста в ячейку таблицы
+            self.tableWidget.setColumnWidth(0, 200)  # Установка длины первой колонки
+            self.tableWidget.setColumnWidth(1, 100)  # Установка длины второй колонки
         except Exception as err:
             show_err(self, err)
 
 
 class GraphWindow(QWidget, Ui_Graphs):
+    """Окно графиков"""
     def __init__(self, *args, **kwargs):
+        """Инициализация окна графиков"""
         super().__init__()
-        self.setupUi(self)
+        self.setupUi(self)  # Установка интерфейса
 
-        self.runBtn.clicked.connect(self.run)
+        self.runBtn.clicked.connect(self.run)  # Обработчик нажатий на кнопку построения
 
     def run(self):
         try:
-            x = sp.symbols('x')
-            equation = sp.sympify(self.graphEdit.text())
-            f = sp.lambdify(x, equation, "numpy")
+            x = sp.symbols('x')  # Символ переменной - x
+            equation = sp.sympify(self.graphEdit.text())  # Задание уравнения с поля ввода
+            f = sp.lambdify(x, equation, "numpy")  # Создание функции для уравнения
 
-            x_vals = np.linspace(int(self.minEdit.text()), int(self.maxEdit.text()), 1000)
-            y_vals = f(x_vals)
+            x_vals = np.linspace(int(self.minEdit.text()), int(self.maxEdit.text()), 1000)  # Количество значений на оси абсцисс
+            y_vals = f(x_vals)  # Количество значений на оси ординат
 
-            plt.plot(x_vals, y_vals, color='black', linestyle='-', linewidth=1)
-            plt.title(f'График функции: {self.graphEdit.text()}')
-            plt.xlabel('ось x')
-            plt.ylabel('ось y')
-            plt.title(f'график функции y = {self.graphEdit.text()}')
-            plt.grid(True)
-            plt.show()
+            plt.plot(x_vals, y_vals, color='black', linestyle='-', linewidth=1)  # Конфигурация окна графиков
+            plt.title(f'График функции: {self.graphEdit.text()}')  # Установка названия окна
+            plt.xlabel('ось x')  # Подпись оси абсцисс
+            plt.ylabel('ось y')  # Подпись оси ординат
+            plt.title(f'график функции y = {self.graphEdit.text()}')  # Подпись графика
+            plt.grid(True)  # Показать сетку
+            plt.show()  # Показать окно
 
-        except sp.SympifyError as err:
+        except sp.SympifyError as err:  # Если введено некорректное математическое выражение
             show_err(self, err, text="Ошибка! Введено некорректное математическое выражение. Подробнее: {}")
         except Exception as err:
             show_err(self, err)
 
 
 class ReadMeGraphWindow(QWidget, Ui_ReadMe):
+    """Окно справки по графикам"""
     def __init__(self, *args, **kwargs):
         super().__init__()
-        self.setupUi(self)
+        self.setupUi(self)  # Установка интерфейса
 
 
 class AboutWindow(QWidget, Ui_AboutUniHelp):
+    """Окно "О программе" """
     def __init__(self, *args, **kwargs):
+        """ Инициализация окна "О программе" """
         super().__init__()
-        self.setupUi(self)
+        self.setupUi(self)  # Установка интерфейса

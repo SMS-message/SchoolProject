@@ -1,17 +1,24 @@
+# Импорт главного окна и всех нужных элементов
+
 from data.classes import UniversalHelper
 from PyQt6.QtWidgets import QApplication
-import sys
+from sys import argv, exit
 
 
 def main() -> None:
-    """main function"""
-    app = QApplication(sys.argv)
+    """
+    Главная функция проекта
 
-    ex = UniversalHelper()
-    ex.show()
+    :return: None
+    """
+    app = QApplication(argv)  # Создание приложения
 
-    sys.exit(app.exec())
+    ex = UniversalHelper()  # Создание главного окна
+    ex.show()  # Вывод главного окна на экран
+
+    exit(app.exec())  # Закончить программу при выходе из приложения
 
 
+# Если файл запущен, как главный
 if __name__ == "__main__":
-    main()
+    main()  # Запуск главной функции
